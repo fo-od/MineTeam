@@ -12,7 +12,14 @@ public class PlayerMixin {
     @Inject(method = "canHarmPlayer", at = @At("RETURN"), cancellable = true)
     private void mine_team$canHarmPlayer(Player other, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) {
-            cir.setReturnValue(MineTeamConfig.allowDamageSelf.get());
+            Player attacker = (Player)(Object)this;
+            boolean bothPVP = other.getPersistentData().getBoolean("teamPvP") || attacker.getPersistentData().getBoolean("teamPvP");
+            boolean sameTeam = attacker.getPersistentData().getString("teamColor").equals(other.getPersistentData().getString("teamColor"));
+            if (MineTeamConfig.allowDamageSelf.get()) {
+                cir.setReturnValue(bothPVP);
+            } else {
+                cir.setReturnValue(!sameTeam && bothPVP);
+            }
         }
     }
 }
