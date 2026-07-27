@@ -39,6 +39,7 @@ public class TeamRender {
     }
 
     public void initButton(){
+        assert Minecraft.getInstance().player != null;
         CompoundTag tag = Minecraft.getInstance().player.getPersistentData();
         String teamColor = tag.getString("teamColor");
         boolean teamPvP = tag.getBoolean("teamPvP");
@@ -53,10 +54,10 @@ public class TeamRender {
         });
         this.teamPVPOff = new ImageButton(screen.leftPos - iconSize,screen.topPos + iconSize + off, iconSize, iconSize,
                 createWidgetSprites("team/pvp/" + teamColor + "_pvp_off"),
-                button-> setTeamPvP(true));
+                button-> setTeamPvP(!teamPvP));
         this.teamPVPOn = new ImageButton(screen.leftPos - iconSize,screen.topPos + iconSize + off, iconSize, iconSize,
                 createWidgetSprites("team/pvp/" + teamColor + "_pvp_on"),
-                button-> setTeamPvP(false));
+                button-> setTeamPvP(teamPvP));
         initSmallIcon();
         hasEnableTeamPvP();
         addRenderableWidget();
@@ -98,6 +99,7 @@ public class TeamRender {
     }
 
     private void setTeamColor(String teamColor){
+        assert Minecraft.getInstance().player != null;
         Minecraft.getInstance().player.getPersistentData().putString("teamColor", teamColor);
         PacketDistributor.sendToServer(new TeamColorSyncPayload(teamColor));
         setImageButtonSprites(this.teamIcon, "team/" + teamColor + "_team_icon");
@@ -107,12 +109,14 @@ public class TeamRender {
 
     public void setTeamPvP(boolean friendlyFire) {
         PacketDistributor.sendToServer(new TeamPvPSyncPayload(friendlyFire));
+        assert Minecraft.getInstance().player != null;
         Minecraft.getInstance().player.getPersistentData().putBoolean("teamPvP", friendlyFire);
         this.teamPVPOn.visible = friendlyFire;
         this.teamPVPOff.visible = !friendlyFire;
     }
 
     private void hasEnableTeamPvP() {
+        assert Minecraft.getInstance().player != null;
         boolean teamPvP = Minecraft.getInstance().player.getPersistentData().getBoolean("teamPvP");
         this.teamPVPOn.visible = teamPvP;
         this.teamPVPOff.visible = !teamPvP;

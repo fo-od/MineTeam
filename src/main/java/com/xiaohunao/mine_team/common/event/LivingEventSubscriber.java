@@ -59,7 +59,7 @@ public class LivingEventSubscriber {
             if (attackEntity == hurtEntity && MineTeamConfig.allowDamageSelf.get()) {
                 return;
             }
-            if (hurtEntityTeam == null || attackEntityTeam == null ||hurtEntityTeam != attackEntityTeam) {
+            if (attackEntityTeam == null || hurtEntityTeam != attackEntityTeam) {
                 return;
             }
             boolean teamPvP = hurtEntity.getPersistentData().getBoolean("teamPvP");
@@ -96,12 +96,12 @@ public class LivingEventSubscriber {
             PlayerTeam attackEntityTeam = scoreboard.getPlayersTeam(attackEntity.getScoreboardName());
             PlayerTeam hurtEntityTeam = scoreboard.getPlayersTeam(hurtEntity.getScoreboardName());
             if (attackEntity instanceof Player player && attackEntityTeam instanceof PlayerTeamMixed playerTeamMixed){
-                playerTeamMixed.setLastHurtMob(hurtEntity);
-                playerTeamMixed.setLastHurtTeam(hurtEntityTeam);
+                playerTeamMixed.mineTeam$setLastHurtMob(hurtEntity);
+                playerTeamMixed.mineTeam$setLastHurtTeam(hurtEntityTeam);
             }
             if (hurtEntity instanceof Player player && hurtEntityTeam instanceof PlayerTeamMixed playerTeamMixed){
-                playerTeamMixed.setLastHurtMob(attackEntity);
-                playerTeamMixed.setLastHurtTeam(attackEntityTeam);
+                playerTeamMixed.mineTeam$setLastHurtMob(attackEntity);
+                playerTeamMixed.mineTeam$setLastHurtTeam(attackEntityTeam);
             }
         }
     }

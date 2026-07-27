@@ -9,17 +9,17 @@ import javax.annotation.Nullable;
 
 public interface PlayerTeamMixed {
     @Nullable
-    PlayerTeam getLastHurtTeam();
+    PlayerTeam mineTeam$getLastHurtTeam();
 
     @Unique
-    void setLastHurtTeam(@Nullable PlayerTeam lastHurtTeam);
+    void mineTeam$setLastHurtTeam(@Nullable PlayerTeam lastHurtTeam);
 
     @Nullable
     @Unique
-    LivingEntity getLastHurtMob();
+    LivingEntity mineTeam$getLastHurtMob();
 
     @Unique
-    long getLastHurtMobTimestamp();
+    long mineTeam$getLastHurtMobTimestamp();
     @Unique
-    void setLastHurtMob(Entity entity);
+    void mineTeam$setLastHurtMob(Entity entity);
 }

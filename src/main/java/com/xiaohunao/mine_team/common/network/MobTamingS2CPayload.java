@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
 public record MobTamingS2CPayload(int entityId,BlockPos pos) implements CustomPacketPayload {
     public static final Type<MobTamingS2CPayload> TYPE = new Type<>(MineTeam.asResource("mob_taming"));
@@ -31,7 +32,7 @@ public record MobTamingS2CPayload(int entityId,BlockPos pos) implements CustomPa
         );
     }
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

@@ -14,50 +14,50 @@ public class PlayerTeamMixin implements PlayerTeamMixed {
 
     @Unique
     @Nullable
-    private LivingEntity lastHurtMob;
+    private LivingEntity mineTeam$lastHurtMob;
 
     @Unique
     @Nullable
-    private PlayerTeam lastHurtTeam;
+    private PlayerTeam mineTeam$lastHurtTeam;
 
     @Unique
-    private long lastHurtMobTimestamp;
+    private long mineTeam$lastHurtMobTimestamp;
 
     @Nullable
     @Override
-    public PlayerTeam getLastHurtTeam() {
-        return lastHurtTeam;
+    public PlayerTeam mineTeam$getLastHurtTeam() {
+        return mineTeam$lastHurtTeam;
     }
 
     @Unique
     @Override
-    public void setLastHurtTeam(@Nullable PlayerTeam lastHurtTeam) {
-        this.lastHurtTeam = lastHurtTeam;
+    public void mineTeam$setLastHurtTeam(@Nullable PlayerTeam lastHurtTeam) {
+        this.mineTeam$lastHurtTeam = lastHurtTeam;
     }
 
     @Nullable
     @Unique
     @Override
-    public LivingEntity getLastHurtMob() {
-        return lastHurtMob;
+    public LivingEntity mineTeam$getLastHurtMob() {
+        return mineTeam$lastHurtMob;
     }
 
     @Unique
     @Override
-    public long getLastHurtMobTimestamp() {
-        return this.lastHurtMobTimestamp;
+    public long mineTeam$getLastHurtMobTimestamp() {
+        return this.mineTeam$lastHurtMobTimestamp;
     }
 
     @Unique
     @Override
-    public void setLastHurtMob(Entity entity) {
+    public void mineTeam$setLastHurtMob(Entity entity) {
         if (entity instanceof LivingEntity) {
-            this.lastHurtMob = (LivingEntity)entity;
+            this.mineTeam$lastHurtMob = (LivingEntity)entity;
         } else {
-            this.lastHurtMob = null;
+            this.mineTeam$lastHurtMob = null;
         }
 
-        this.lastHurtMobTimestamp = entity.level().getGameTime();
+        this.mineTeam$lastHurtMobTimestamp = entity.level().getGameTime();
     }
 
 }

@@ -29,7 +29,7 @@ public class ServerScoreboardMixin {
                 UUIDUtil.STRING_CODEC.parse(JsonOps.INSTANCE, new JsonPrimitive(playerName)).result().ifPresent(uuid -> {
                     Entity entity = level.getEntity(uuid);
                     if (entity instanceof MobMixed mobMixed) {
-                        mobMixed.setTame(team);
+                        mobMixed.mineTeam$setTame(team);
                     }
                 });
             }

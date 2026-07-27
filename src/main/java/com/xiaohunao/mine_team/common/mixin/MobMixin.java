@@ -47,17 +47,17 @@ public abstract class MobMixin extends Entity implements MobMixed {
 
 
     @Override
-    public void setTame(PlayerTeam tame) {
+    public void mineTeam$setTame(PlayerTeam tame) {
         this.entityData.set(DATA_FLAGS_ID, tame.getName());
     }
 
     @Override
-    public boolean wantsToAttack(LivingEntity ownerLastHurt, PlayerTeam lastHurtTeam,PlayerTeam team) {
+    public boolean mineTeam$wantsToAttack(LivingEntity ownerLastHurt, PlayerTeam lastHurtTeam, PlayerTeam team) {
         return lastHurtTeam != team;
     }
 
     @Override
-    public PlayerTeam getOwnerTeam() {
+    public PlayerTeam mineTeam$getOwnerTeam() {
         MinecraftServer server = this.getServer();
         if (server != null) {
             ServerScoreboard scoreboard = server.getScoreboard();
