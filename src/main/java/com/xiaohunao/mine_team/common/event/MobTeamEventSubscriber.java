@@ -22,6 +22,8 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.Objects;
+
 @EventBusSubscriber(modid = MineTeam.MOD_ID)
 public class MobTeamEventSubscriber {
     @SubscribeEvent
@@ -48,7 +50,7 @@ public class MobTeamEventSubscriber {
                 livingEntity.setGlowingTag(true);
                 String teamColor = tag.getString("teamTamingColor");
                 ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
-                scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), scoreboard.getPlayerTeam(teamColor));
+                scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), Objects.requireNonNull(scoreboard.getPlayerTeam(teamColor)));
                 PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(),target.blockPosition()));
             }
         }
@@ -67,7 +69,7 @@ public class MobTeamEventSubscriber {
                 String teamColor = tag.getString("teamTamingColor");
                 ServerLevel serverLevel = (ServerLevel) livingEntity.level();
                 ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
-                scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), scoreboard.getPlayerTeam(teamColor));
+                scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), Objects.requireNonNull(scoreboard.getPlayerTeam(teamColor)));
                 livingEntity.setGlowingTag(true);
                 tag.remove("teamTamingTime");
                 tag.remove("teamTamingColor");
