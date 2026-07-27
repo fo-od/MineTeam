@@ -46,6 +46,9 @@ public class MobTeamEventSubscriber {
                 livingEntity.removeEffect(MobEffects.WEAKNESS);
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Math.min(livingEntity.level().getDifficulty().getId() - 1, 0)));
                 livingEntity.setGlowingTag(true);
+                String teamColor = tag.getString("teamTamingColor");
+                ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
+                scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), scoreboard.getPlayerTeam(teamColor));
                 PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(),target.blockPosition()));
             }
         }
