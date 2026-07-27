@@ -1,6 +1,7 @@
 package com.xiaohunao.mine_team.common.network;
 
 import com.xiaohunao.mine_team.MineTeam;
+import com.xiaohunao.mine_team.client.gui.team.TeamClientState;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -39,6 +40,7 @@ public record TeamPvPSyncPayload(boolean friendlyFire) implements CustomPacketPa
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = (LocalPlayer) context.player();
             localPlayer.getPersistentData().putBoolean("teamPvP", payload.friendlyFire);
+            TeamClientState.teamPvP = payload.friendlyFire;
         });
     }
 

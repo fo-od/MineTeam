@@ -39,10 +39,8 @@ public class TeamRender {
     }
 
     public void initButton(){
-        assert Minecraft.getInstance().player != null;
-        CompoundTag tag = Minecraft.getInstance().player.getPersistentData();
-        String teamColor = tag.getString("teamColor");
-        boolean teamPvP = tag.getBoolean("teamPvP");
+        String teamColor = TeamClientState.teamColor;
+        boolean teamPvP = TeamClientState.teamPvP;
 
         int iconSize = 16;
         int off = 6;
@@ -101,6 +99,7 @@ public class TeamRender {
     private void setTeamColor(String teamColor){
         assert Minecraft.getInstance().player != null;
         Minecraft.getInstance().player.getPersistentData().putString("teamColor", teamColor);
+        TeamClientState.teamColor = teamColor;
         PacketDistributor.sendToServer(new TeamColorSyncPayload(teamColor));
         setImageButtonSprites(this.teamIcon, "team/" + teamColor + "_team_icon");
         setImageButtonSprites(this.teamPVPOn, "team/pvp/" + teamColor + "_pvp_on");
@@ -111,13 +110,14 @@ public class TeamRender {
         PacketDistributor.sendToServer(new TeamPvPSyncPayload(friendlyFire));
         assert Minecraft.getInstance().player != null;
         Minecraft.getInstance().player.getPersistentData().putBoolean("teamPvP", friendlyFire);
+        TeamClientState.teamPvP = friendlyFire;
         this.teamPVPOn.visible = friendlyFire;
         this.teamPVPOff.visible = !friendlyFire;
     }
 
     private void hasEnableTeamPvP() {
         assert Minecraft.getInstance().player != null;
-        boolean teamPvP = Minecraft.getInstance().player.getPersistentData().getBoolean("teamPvP");
+        boolean teamPvP = TeamClientState.teamPvP;
         this.teamPVPOn.visible = teamPvP;
         this.teamPVPOff.visible = !teamPvP;
     }

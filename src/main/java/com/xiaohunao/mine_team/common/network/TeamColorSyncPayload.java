@@ -1,6 +1,7 @@
 package com.xiaohunao.mine_team.common.network;
 
 import com.xiaohunao.mine_team.MineTeam;
+import com.xiaohunao.mine_team.client.gui.team.TeamClientState;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -45,6 +46,7 @@ public record TeamColorSyncPayload(String newTeamColor) implements CustomPacketP
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = (LocalPlayer) context.player();
             localPlayer.getPersistentData().putString("teamColor", payload.newTeamColor());
+            TeamClientState.teamColor = payload.newTeamColor();
         });
     }
 
