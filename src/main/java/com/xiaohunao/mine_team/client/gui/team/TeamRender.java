@@ -110,14 +110,13 @@ public class TeamRender {
         PacketDistributor.sendToServer(new TeamPvPSyncPayload(friendlyFire));
         assert Minecraft.getInstance().player != null;
         Minecraft.getInstance().player.getPersistentData().putBoolean("teamPvP", friendlyFire);
-        TeamClientState.teamPvP = friendlyFire;
-        this.teamPVPOn.visible = friendlyFire;
-        this.teamPVPOff.visible = !friendlyFire;
+        hasEnableTeamPvP();
     }
 
     private void hasEnableTeamPvP() {
         assert Minecraft.getInstance().player != null;
-        boolean teamPvP = TeamClientState.teamPvP;
+        boolean teamPvP = Minecraft.getInstance().player.getPersistentData().getBoolean("teamPvP");
+        TeamClientState.teamPvP = teamPvP;
         this.teamPVPOn.visible = teamPvP;
         this.teamPVPOff.visible = !teamPvP;
     }
