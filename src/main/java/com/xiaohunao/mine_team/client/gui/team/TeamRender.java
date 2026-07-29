@@ -11,7 +11,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -40,7 +39,6 @@ public class TeamRender {
 
     public void initButton(){
         String teamColor = TeamClientState.teamColor;
-        boolean teamPvP = TeamClientState.teamPvP;
 
         int iconSize = 16;
         int off = 6;
@@ -52,10 +50,10 @@ public class TeamRender {
         });
         this.teamPVPOff = new ImageButton(screen.leftPos - iconSize,screen.topPos + iconSize + off, iconSize, iconSize,
                 createWidgetSprites("team/pvp/" + teamColor + "_pvp_off"),
-                button-> setTeamPvP(!teamPvP));
+                button-> setTeamPvP(true));
         this.teamPVPOn = new ImageButton(screen.leftPos - iconSize,screen.topPos + iconSize + off, iconSize, iconSize,
                 createWidgetSprites("team/pvp/" + teamColor + "_pvp_on"),
-                button-> setTeamPvP(teamPvP));
+                button-> setTeamPvP(false));
         initSmallIcon();
         hasEnableTeamPvP();
         addRenderableWidget();
