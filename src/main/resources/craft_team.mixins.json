@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.fooduhhh.craft_team.common.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "craft_team.refmap.json",
+  "mixins": [
+    "MobMixin",
+    "PlayerMixin",
+    "PlayerTeamMixin",
+    "ServerScoreboardMixin"
+  ],
+  "client": [
+    "CreativeModeInventoryScreenMixin",
+    "ImageButtonAccessor",
+    "InventoryScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
