@@ -14,6 +14,7 @@ public class TeamOwnerHurtTargetGoal extends TargetGoal {
     private final Mob tameLivingEntity;
     private LivingEntity ownerLastHurt;
     private long timestamp;
+
     public TeamOwnerHurtTargetGoal(Mob tameLivingEntity) {
         super(tameLivingEntity, false);
         this.tameLivingEntity = tameLivingEntity;
@@ -21,13 +22,13 @@ public class TeamOwnerHurtTargetGoal extends TargetGoal {
     }
 
     public boolean canUse() {
-        if (this.tameLivingEntity instanceof MobMixed mobMixed){
+        if (this.tameLivingEntity instanceof MobMixed mobMixed) {
             PlayerTeam ownerTeam = mobMixed.mineTeam$getOwnerTeam();
             if (ownerTeam instanceof PlayerTeamMixed playerTeamMixed) {
                 this.ownerLastHurt = playerTeamMixed.mineTeam$getLastHurtMob();
                 long timestamp = playerTeamMixed.mineTeam$getLastHurtMobTimestamp();
                 return timestamp != this.timestamp && this.canAttack(this.ownerLastHurt, TargetingConditions.DEFAULT) &&
-                        mobMixed.mineTeam$wantsToAttack(this.ownerLastHurt, playerTeamMixed.mineTeam$getLastHurtTeam(),ownerTeam);
+                        mobMixed.mineTeam$wantsToAttack(this.ownerLastHurt, playerTeamMixed.mineTeam$getLastHurtTeam(), ownerTeam);
             }
         }
         return false;
@@ -36,7 +37,7 @@ public class TeamOwnerHurtTargetGoal extends TargetGoal {
     public void start() {
         this.mob.setTarget(this.ownerLastHurt);
 
-        if (this.tameLivingEntity instanceof MobMixed mobMixed){
+        if (this.tameLivingEntity instanceof MobMixed mobMixed) {
             PlayerTeam team = mobMixed.mineTeam$getOwnerTeam();
             if (team instanceof PlayerTeamMixed playerTeamMixed) {
                 this.timestamp = playerTeamMixed.mineTeam$getLastHurtMobTimestamp();

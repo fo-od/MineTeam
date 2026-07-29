@@ -17,17 +17,12 @@ public class InitTeamsCommand {
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
-        dispatcher.register(
-                Commands.literal("mineteam")
-                        .requires(cs -> cs.hasPermission(2)) // OP-only; change as desired
-                        .then(Commands.literal("init")
-                                .executes(ctx -> {
-                                    ServerLevel level = ctx.getSource().getLevel();
-                                    TeamInitializer.initTeams(level);
-                                    ctx.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.literal("Teams initialized."), true);
-                                    return 1;
-                                })
-                        )
-        );
+        dispatcher.register(Commands.literal("mineteam").requires(cs -> cs.hasPermission(2)) // OP-only; change as desired
+                .then(Commands.literal("init").executes(ctx -> {
+                    ServerLevel level = ctx.getSource().getLevel();
+                    TeamInitializer.initTeams(level);
+                    ctx.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.literal("Teams initialized."), true);
+                    return 1;
+                })));
     }
 }

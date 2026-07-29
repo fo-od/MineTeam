@@ -20,6 +20,7 @@ public interface PlayerTeamMixed {
 
     @Unique
     long mineTeam$getLastHurtMobTimestamp();
+
     @Unique
     void mineTeam$setLastHurtMob(Entity entity);
 }

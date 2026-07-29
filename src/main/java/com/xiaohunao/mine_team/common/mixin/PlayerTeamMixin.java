@@ -52,7 +52,7 @@ public class PlayerTeamMixin implements PlayerTeamMixed {
     @Override
     public void mineTeam$setLastHurtMob(Entity entity) {
         if (entity instanceof LivingEntity) {
-            this.mineTeam$lastHurtMob = (LivingEntity)entity;
+            this.mineTeam$lastHurtMob = (LivingEntity) entity;
         } else {
             this.mineTeam$lastHurtMob = null;
         }

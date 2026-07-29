@@ -27,7 +27,7 @@ public class MineTeamConfig {
         tamingMaterials = builder
                 .comment("List of materials that can be used to tame entities")
                 .comment("Format: entity-ingredient,'minecraft:wolf-{'item':'minecraft:bone'}'")
-                .defineList("tamingMaterials", List.of(), str -> {
+                .define("tamingMaterials", List.of(), str -> {
                     if (!(str instanceof String)) {
                         return false;
                     }
@@ -44,16 +44,8 @@ public class MineTeamConfig {
         tamingMaterialMap.clear();
         for (String material : tamingMaterials.get()) {
             String[] split = material.split("-");
-            BuiltInRegistries.ENTITY_TYPE.getOptional(ResourceLocation.parse(split[0])).ifPresent(entityType -> {
-                Ingredient.CODEC_NONEMPTY.parse(JsonOps.INSTANCE,new JsonPrimitive(split[1])).result().ifPresent(ingredient -> {
-                    tamingMaterialMap.put(entityType, ingredient);
-                });
-            });
+            BuiltInRegistries.ENTITY_TYPE.getOptional(ResourceLocation.parse(split[0])).ifPresent(entityType -> Ingredient.CODEC_NONEMPTY.parse(JsonOps.INSTANCE, new JsonPrimitive(split[1])).result().ifPresent(ingredient -> tamingMaterialMap.put(entityType, ingredient)));
         }
-    }
-
-    public static BiMap<EntityType<?>, Ingredient> getTamingMaterialMap() {
-        return tamingMaterialMap;
     }
 
     public static Ingredient getTamingMaterial(EntityType<?> entityType) {

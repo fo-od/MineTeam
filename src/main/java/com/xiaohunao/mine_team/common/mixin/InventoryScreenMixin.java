@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu>{
+public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu> {
     @Unique
     private final TeamRender team$teamRender = new TeamRender(this);
 

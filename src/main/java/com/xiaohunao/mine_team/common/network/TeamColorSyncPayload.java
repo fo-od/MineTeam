@@ -20,8 +20,9 @@ public record TeamColorSyncPayload(String newTeamColor) implements CustomPacketP
             ByteBufCodecs.STRING_UTF8, TeamColorSyncPayload::newTeamColor,
             TeamColorSyncPayload::new
     );
+
     public static void serverHandle(final TeamColorSyncPayload data, final IPayloadContext context) {
-        context.enqueueWork(() ->{
+        context.enqueueWork(() -> {
             ServerPlayer player = (ServerPlayer) context.player();
 
             player.getPersistentData().putString("teamColor", data.newTeamColor());
@@ -33,7 +34,7 @@ public record TeamColorSyncPayload(String newTeamColor) implements CustomPacketP
                 if (oldPlayerTeam != null) {
                     scoreboard.removePlayerFromTeam(player.getScoreboardName(), oldPlayerTeam);
                     PlayerTeam newPlayerTeam = scoreboard.getPlayerTeam(data.newTeamColor());
-                    if (newPlayerTeam != null){
+                    if (newPlayerTeam != null) {
                         scoreboard.addPlayerToTeam(player.getScoreboardName(), newPlayerTeam);
                     }
                 }
@@ -42,7 +43,7 @@ public record TeamColorSyncPayload(String newTeamColor) implements CustomPacketP
     }
 
 
-    public static void clientHandle(final TeamColorSyncPayload payload,final IPayloadContext context) {
+    public static void clientHandle(final TeamColorSyncPayload payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = (LocalPlayer) context.player();
             localPlayer.getPersistentData().putString("teamColor", payload.newTeamColor());

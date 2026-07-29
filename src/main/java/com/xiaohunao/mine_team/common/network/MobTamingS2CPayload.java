@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-public record MobTamingS2CPayload(int entityId,BlockPos pos) implements CustomPacketPayload {
+public record MobTamingS2CPayload(int entityId, BlockPos pos) implements CustomPacketPayload {
     public static final Type<MobTamingS2CPayload> TYPE = new Type<>(MineTeam.asResource("mob_taming"));
     public static final StreamCodec<ByteBuf, MobTamingS2CPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, MobTamingS2CPayload::entityId,
@@ -22,15 +22,18 @@ public record MobTamingS2CPayload(int entityId,BlockPos pos) implements CustomPa
     );
 
 
-    public static void clientHandle(final MobTamingS2CPayload payload,final IPayloadContext context) {
+    public static void clientHandle(final MobTamingS2CPayload payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            ClientLevel clientLevel = Minecraft.getInstance().level;
-            Entity entity = clientLevel.getEntity(payload.entityId);
-            if (entity != null) {
-                entity.level().playLocalSound(payload.pos.getX(), payload.pos.getY(), payload.pos.getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, entity.getSoundSource(), 1.0F + entity.level().random.nextFloat(), entity.level().random.nextFloat() * 0.7F + 0.3F, false);
-            }}
+                    ClientLevel clientLevel = Minecraft.getInstance().level;
+                    assert clientLevel != null;
+                    Entity entity = clientLevel.getEntity(payload.entityId);
+                    if (entity != null) {
+                        entity.level().playLocalSound(payload.pos.getX(), payload.pos.getY(), payload.pos.getZ(), SoundEvents.ZOMBIE_VILLAGER_CURE, entity.getSoundSource(), 1.0F + entity.level().random.nextFloat(), entity.level().random.nextFloat() * 0.7F + 0.3F, false);
+                    }
+                }
         );
     }
+
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;

@@ -43,15 +43,15 @@ public class MobTeamEventSubscriber {
             PlayerTeam playersTeam = serverLevel.getServer().getScoreboard().getPlayersTeam(target.getScoreboardName());
             if (livingEntity.hasEffect(MobEffects.WEAKNESS) && playersTeam == null) {
                 itemstack.consume(1, player);
-                livingEntity.getPersistentData().putInt("TeamConversionTime",livingEntity.level().random.nextInt(2401) + 3600);
-                tag.putString("teamTamingColor",player.getPersistentData().getString("teamColor"));
+                livingEntity.getPersistentData().putInt("TeamConversionTime", livingEntity.level().random.nextInt(2401) + 3600);
+                tag.putString("teamTamingColor", player.getPersistentData().getString("teamColor"));
                 livingEntity.removeEffect(MobEffects.WEAKNESS);
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Math.min(livingEntity.level().getDifficulty().getId() - 1, 0)));
                 livingEntity.setGlowingTag(true);
                 String teamColor = tag.getString("teamTamingColor");
                 ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
                 scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), Objects.requireNonNull(scoreboard.getPlayerTeam(teamColor)));
-                PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(),target.blockPosition()));
+                PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(), target.blockPosition()));
             }
         }
     }
@@ -59,13 +59,13 @@ public class MobTeamEventSubscriber {
     @SubscribeEvent
     public static void onEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
-        if (entity instanceof LivingEntity livingEntity && !livingEntity.level().isClientSide){
+        if (entity instanceof LivingEntity livingEntity && !livingEntity.level().isClientSide) {
             CompoundTag tag = livingEntity.getPersistentData();
             if (!tag.contains("teamTamingTime")) {
                 return;
             }
             int time = tag.getInt("teamTamingTime");
-            if (time <= 0){
+            if (time <= 0) {
                 String teamColor = tag.getString("teamTamingColor");
                 ServerLevel serverLevel = (ServerLevel) livingEntity.level();
                 ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
@@ -73,8 +73,8 @@ public class MobTeamEventSubscriber {
                 livingEntity.setGlowingTag(true);
                 tag.remove("teamTamingTime");
                 tag.remove("teamTamingColor");
-            }else {
-                tag.putInt("teamTamingTime",time - 1);
+            } else {
+                tag.putInt("teamTamingTime", time - 1);
             }
         }
     }
