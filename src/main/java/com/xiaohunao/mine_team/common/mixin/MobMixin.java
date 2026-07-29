@@ -24,7 +24,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Mob.class)
 public abstract class MobMixin extends Entity implements MobMixed {
-    @Shadow @Final public GoalSelector targetSelector;
+    @Shadow
+    @Final
+    public GoalSelector targetSelector;
 
 
     @Unique

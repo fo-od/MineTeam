@@ -36,7 +36,7 @@ public class LivingEventSubscriber {
         PacketDistributor.sendToPlayer((ServerPlayer) player, new TeamPvPSyncPayload(teamPvP));
 
 
-        ServerLevel level = (ServerLevel)player.level();
+        ServerLevel level = (ServerLevel) player.level();
         Scoreboard scoreboard = level.getServer().getScoreboard();
         PlayerTeam team = scoreboard.getPlayersTeam(player.getScoreboardName());
         if (team == null) {
@@ -52,7 +52,7 @@ public class LivingEventSubscriber {
         LivingEntity hurtEntity = event.getEntity();
         DamageSource source = event.getSource();
         Entity attackEntity = source.getEntity();
-        if (hurtEntity.level() instanceof ServerLevel serverLevel && attackEntity != null){
+        if (hurtEntity.level() instanceof ServerLevel serverLevel && attackEntity != null) {
             ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
             PlayerTeam attackEntityTeam = scoreboard.getPlayersTeam(attackEntity.getScoreboardName());
             PlayerTeam hurtEntityTeam = scoreboard.getPlayersTeam(hurtEntity.getScoreboardName());
@@ -85,21 +85,20 @@ public class LivingEventSubscriber {
     }
 
 
-
     @SubscribeEvent
     public static void onSetTeamLastHurtMob(LivingIncomingDamageEvent event) {
         LivingEntity hurtEntity = event.getEntity();
         DamageSource source = event.getSource();
         Entity attackEntity = source.getEntity();
-        if (hurtEntity.level() instanceof ServerLevel serverLevel && attackEntity != null){
+        if (hurtEntity.level() instanceof ServerLevel serverLevel && attackEntity != null) {
             ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
             PlayerTeam attackEntityTeam = scoreboard.getPlayersTeam(attackEntity.getScoreboardName());
             PlayerTeam hurtEntityTeam = scoreboard.getPlayersTeam(hurtEntity.getScoreboardName());
-            if (attackEntity instanceof Player player && attackEntityTeam instanceof PlayerTeamMixed playerTeamMixed){
+            if (attackEntity instanceof Player && attackEntityTeam instanceof PlayerTeamMixed playerTeamMixed) {
                 playerTeamMixed.mineTeam$setLastHurtMob(hurtEntity);
                 playerTeamMixed.mineTeam$setLastHurtTeam(hurtEntityTeam);
             }
-            if (hurtEntity instanceof Player player && hurtEntityTeam instanceof PlayerTeamMixed playerTeamMixed){
+            if (hurtEntity instanceof Player && hurtEntityTeam instanceof PlayerTeamMixed playerTeamMixed) {
                 playerTeamMixed.mineTeam$setLastHurtMob(attackEntity);
                 playerTeamMixed.mineTeam$setLastHurtTeam(attackEntityTeam);
             }

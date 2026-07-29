@@ -17,13 +17,13 @@ import org.jetbrains.annotations.NotNull;
 public record TeamPvPSyncPayload(boolean friendlyFire) implements CustomPacketPayload {
     public static final Type<TeamPvPSyncPayload> TYPE = new Type<>(MineTeam.asResource("sync_pvp"));
     public static final StreamCodec<ByteBuf, TeamPvPSyncPayload> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL,TeamPvPSyncPayload::friendlyFire,
+            ByteBufCodecs.BOOL, TeamPvPSyncPayload::friendlyFire,
             TeamPvPSyncPayload::new
     );
 
     public static void serverHandle(TeamPvPSyncPayload data, IPayloadContext context) {
-        context.enqueueWork(() ->{
-            ServerPlayer player = (ServerPlayer)context.player();
+        context.enqueueWork(() -> {
+            ServerPlayer player = (ServerPlayer) context.player();
             MinecraftServer server = player.level().getServer();
             if (server != null) {
                 ServerScoreboard scoreboard = server.getScoreboard();
@@ -36,7 +36,7 @@ public record TeamPvPSyncPayload(boolean friendlyFire) implements CustomPacketPa
         });
     }
 
-    public static void clientHandle(final TeamPvPSyncPayload payload,final IPayloadContext context) {
+    public static void clientHandle(final TeamPvPSyncPayload payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = (LocalPlayer) context.player();
             localPlayer.getPersistentData().putBoolean("teamPvP", payload.friendlyFire);
