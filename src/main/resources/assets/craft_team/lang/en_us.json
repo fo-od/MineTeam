@@ -1,4 +1,11 @@
 {
   "key.categories.craft_team": "Craft Team",
-  "key.craft_team.menu": "Open Action Menu"
+  "key.craft_team.menu": "Open Action Menu",
+  "key.craft_team.menu.change_owner": "Change Owner",
+  "key.craft_team.menu.change_owner.team": "Team",
+  "key.craft_team.menu.change_owner.player": "Player",
+  "key.craft_team.menu.command": "Command",
+  "key.craft_team.menu.command.attack": "Attack",
+  "key.craft_team.menu.command.follow": "Follow",
+  "key.craft_team.menu.command.stay": "Stay"
 }
