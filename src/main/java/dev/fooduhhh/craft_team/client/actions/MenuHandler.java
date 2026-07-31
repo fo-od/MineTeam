@@ -8,10 +8,14 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
+import static dev.fooduhhh.craft_team.client.actions.MenuHelper.*;
+import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
+
 public class MenuHandler {
     public static final float MAX_DISTANCE = 100; // max mob distance from player squared
 
     public static boolean isMenuOpen = false;
+    private static boolean wasMenuOpen = false;
 
     public static final KeyMapping ACTION_MENU_MAPPING = new KeyMapping(
             "key.craft_team.menu",
@@ -28,6 +32,7 @@ public class MenuHandler {
         if (isMenuOpen) return;
         isMenuOpen = true;
         Constants.MINECRAFT.mouseHandler.releaseMouse();
+        initializeCache();
 
         HitResult hitResult = Constants.MINECRAFT.hitResult;
         if (hitResult != null && hitResult.distanceTo(Constants.MINECRAFT.player) < MAX_DISTANCE) {
@@ -41,14 +46,36 @@ public class MenuHandler {
         if (!isMenuOpen) return;
         isMenuOpen = false;
         Constants.MINECRAFT.mouseHandler.grabMouse();
+        clearCache();
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
-        if (!ACTION_MENU_MAPPING.isDown()) {
+        boolean isDown = ACTION_MENU_MAPPING.isDown();
+        if (!isDown && wasMenuOpen) {
             closeMenu();
         }
-        while (ACTION_MENU_MAPPING.consumeClick()) {
+
+        if (isDown && !wasMenuOpen) {
             openMenu();
         }
+
+        if (isMenuOpen) {
+            handleMouseInput(Constants.MINECRAFT.mouseHandler.xpos(), Constants.MINECRAFT.mouseHandler.ypos());
+        }
+
+        wasMenuOpen = isDown;
+    }
+
+    public static boolean handleMouseInput(double mouseX, double mouseY) {
+        if (isMouseInDeadzone(mouseX, mouseY)) return false;
+        return currentMenu.handleSelection(mouseX, mouseY);
+    }
+
+    public static void onMenuClose() {
+        currentMenu = mainMenu;
+    }
+
+    private static boolean isMouseInDeadzone(double mouseX, double mouseY) {
+        return true;
     }
 }

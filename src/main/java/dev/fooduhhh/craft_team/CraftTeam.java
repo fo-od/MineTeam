@@ -1,6 +1,8 @@
 package dev.fooduhhh.craft_team;
 
 import dev.fooduhhh.craft_team.client.actions.MenuHandler;
+import dev.fooduhhh.craft_team.client.actions.MenuHelper;
+import dev.fooduhhh.craft_team.client.actions.MenuRender;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -40,6 +42,8 @@ public class CraftTeam {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            MenuHelper.currentMenu = MenuRender.mainMenu;
+            MenuHelper.initializeCache();
         }
 
         @SubscribeEvent

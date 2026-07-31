@@ -7,6 +7,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
@@ -22,4 +23,13 @@ public class CraftTeamClient {
             MenuRender.render(event.getGuiGraphics());
         }
     }
+
+    @SubscribeEvent
+    public static void onClick(InputEvent.MouseButton.Pre event) {
+        if (MenuHandler.isMenuOpen) {
+            MenuHandler.closeMenu();
+            event.setCanceled(true);
+        }
+    }
+
 }
