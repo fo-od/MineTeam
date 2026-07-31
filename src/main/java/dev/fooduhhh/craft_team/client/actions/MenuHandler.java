@@ -24,20 +24,31 @@ public class MenuHandler {
         event.register(ACTION_MENU_MAPPING);
     }
 
+    public static void openMenu() {
+        if (isMenuOpen) return;
+        isMenuOpen = true;
+        Constants.MINECRAFT.mouseHandler.releaseMouse();
+
+        HitResult hitResult = Constants.MINECRAFT.hitResult;
+        if (hitResult != null && hitResult.distanceTo(Constants.MINECRAFT.player) < MAX_DISTANCE) {
+            Constants.LOGGER.info("Looking at entity <10 blocks away");
+        } else {
+            Constants.LOGGER.info("Not looking at entity / entity is too far");
+        }
+    }
+
+    public static void closeMenu() {
+        if (!isMenuOpen) return;
+        isMenuOpen = false;
+        Constants.MINECRAFT.mouseHandler.grabMouse();
+    }
+
     public static void onClientTick(ClientTickEvent.Post event) {
         if (!ACTION_MENU_MAPPING.isDown()) {
-            isMenuOpen = false;
+            closeMenu();
         }
         while (ACTION_MENU_MAPPING.consumeClick()) {
-            isMenuOpen = true;
-
-            HitResult hitResult = Constants.MINECRAFT.hitResult;
-
-            if (hitResult != null && hitResult.distanceTo(Constants.MINECRAFT.player) < MAX_DISTANCE) {
-                Constants.LOGGER.info("Looking at entity <10 blocks away");
-            } else {
-                Constants.LOGGER.info("Not looking at entity / entity is too far");
-            }
+            openMenu();
         }
     }
 }
