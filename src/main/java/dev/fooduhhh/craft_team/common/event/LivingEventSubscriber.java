@@ -1,6 +1,6 @@
 package dev.fooduhhh.craft_team.common.event;
 
-import dev.fooduhhh.craft_team.CraftTeam;
+import dev.fooduhhh.craft_team.common.Constants;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import dev.fooduhhh.craft_team.common.mixed.PlayerTeamMixed;
 import dev.fooduhhh.craft_team.common.network.TeamColorSyncPayload;
@@ -20,7 +20,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-@EventBusSubscriber(modid = CraftTeam.MOD_ID)
+@EventBusSubscriber(modid = Constants.MOD_ID)
 public class LivingEventSubscriber {
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {

@@ -1,6 +1,6 @@
 package dev.fooduhhh.craft_team.common.event;
 
-import dev.fooduhhh.craft_team.CraftTeam;
+import dev.fooduhhh.craft_team.common.Constants;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import dev.fooduhhh.craft_team.common.network.MobTamingS2CPayload;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +24,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
-@EventBusSubscriber(modid = CraftTeam.MOD_ID)
+@EventBusSubscriber(modid = Constants.MOD_ID)
 public class MobTeamEventSubscriber {
     @SubscribeEvent
     public static void onPlayerInteractEntityInteract(PlayerInteractEvent.EntityInteract event) {

@@ -1,7 +1,7 @@
 package dev.fooduhhh.craft_team.common.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.fooduhhh.craft_team.CraftTeam;
+import dev.fooduhhh.craft_team.common.Constants;
 import dev.fooduhhh.craft_team.common.init.TeamInitializer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 
-@EventBusSubscriber(modid = CraftTeam.MOD_ID)
+@EventBusSubscriber(modid = Constants.MOD_ID)
 public class InitTeamsCommand {
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {

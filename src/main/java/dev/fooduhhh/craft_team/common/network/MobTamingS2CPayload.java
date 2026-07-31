@@ -1,8 +1,8 @@
 package dev.fooduhhh.craft_team.common.network;
 
 import dev.fooduhhh.craft_team.CraftTeam;
+import dev.fooduhhh.craft_team.common.Constants;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -24,7 +24,7 @@ public record MobTamingS2CPayload(int entityId, BlockPos pos) implements CustomP
 
     public static void clientHandle(final MobTamingS2CPayload payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
-                    ClientLevel clientLevel = Minecraft.getInstance().level;
+                    ClientLevel clientLevel = Constants.MINECRAFT.level;
                     assert clientLevel != null;
                     Entity entity = clientLevel.getEntity(payload.entityId);
                     if (entity != null) {

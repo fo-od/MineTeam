@@ -2,11 +2,11 @@ package dev.fooduhhh.craft_team.client.gui.team;
 
 import com.google.common.collect.Maps;
 import dev.fooduhhh.craft_team.CraftTeam;
+import dev.fooduhhh.craft_team.common.Constants;
 import dev.fooduhhh.craft_team.common.mixin.ImageButtonAccessor;
 import dev.fooduhhh.craft_team.common.network.TeamColorSyncPayload;
 import dev.fooduhhh.craft_team.common.network.TeamPvPSyncPayload;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -96,8 +96,8 @@ public class TeamRender {
     }
 
     private void setTeamColor(String teamColor) {
-        assert Minecraft.getInstance().player != null;
-        Minecraft.getInstance().player.getPersistentData().putString("teamColor", teamColor);
+        assert Constants.MINECRAFT.player != null;
+        Constants.MINECRAFT.player.getPersistentData().putString("teamColor", teamColor);
         TeamClientState.teamColor = teamColor;
         PacketDistributor.sendToServer(new TeamColorSyncPayload(teamColor));
         setImageButtonSprites(this.teamIcon, "team/" + teamColor + "_team_icon");
@@ -107,14 +107,14 @@ public class TeamRender {
 
     public void setTeamPvP(boolean friendlyFire) {
         PacketDistributor.sendToServer(new TeamPvPSyncPayload(friendlyFire));
-        assert Minecraft.getInstance().player != null;
-        Minecraft.getInstance().player.getPersistentData().putBoolean("teamPvP", friendlyFire);
+        assert Constants.MINECRAFT.player != null;
+        Constants.MINECRAFT.player.getPersistentData().putBoolean("teamPvP", friendlyFire);
         hasEnableTeamPvP();
     }
 
     private void hasEnableTeamPvP() {
-        assert Minecraft.getInstance().player != null;
-        boolean teamPvP = Minecraft.getInstance().player.getPersistentData().getBoolean("teamPvP");
+        assert Constants.MINECRAFT.player != null;
+        boolean teamPvP = Constants.MINECRAFT.player.getPersistentData().getBoolean("teamPvP");
         TeamClientState.teamPvP = teamPvP;
         this.teamPVPOn.visible = teamPvP;
         this.teamPVPOff.visible = !teamPvP;
