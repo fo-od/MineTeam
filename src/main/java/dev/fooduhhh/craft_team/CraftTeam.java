@@ -1,5 +1,7 @@
 package dev.fooduhhh.craft_team;
 
+import com.mojang.logging.LogUtils;
+import dev.fooduhhh.craft_team.client.actions.Handler;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -11,10 +13,14 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import org.slf4j.Logger;
 
 @Mod(CraftTeam.MOD_ID)
 public class CraftTeam {
     public static final String MOD_ID = "craft_team";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public CraftTeam(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::onFMLCommonSetup);
@@ -39,6 +45,19 @@ public class CraftTeam {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
+        }
+
+        @SubscribeEvent
+        public static void onClientKeybinds(RegisterKeyMappingsEvent event) {
+            Handler.registerBindings(event);
+        }
+    }
+
+    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+    public static class ClientTickEvents {
+        @SubscribeEvent
+        public static void onClientTick(ClientTickEvent.Post event) {
+            Handler.onClientTick(event);
         }
     }
 }
