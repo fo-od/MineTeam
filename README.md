@@ -1,7 +1,5 @@
 Craft Team
 ---
-
-
 > [!NOTE]
 > This mod only supports Minecraft 1.21.1 (NeoForge 21.x)
 
