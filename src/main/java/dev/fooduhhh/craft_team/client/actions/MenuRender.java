@@ -10,6 +10,17 @@ public class MenuRender {
     private static int originX;
     private static int originY;
 
+    private static final RadialMenu ownerMenu = new RadialMenu(new RadialMenu.Option[] {
+            new RadialMenu.Option("key.craft_team.menu.change_owner.team", Items.NAME_TAG),
+            new RadialMenu.Option("key.craft_team.menu.change_owner.player", Items.PLAYER_HEAD),
+    }, 50);
+
+    private static final RadialMenu commandMenu = new RadialMenu(new RadialMenu.Option[] {
+            new RadialMenu.Option("key.craft_team.menu.command.attack", Items.DIAMOND_SWORD),
+            new RadialMenu.Option("key.craft_team.menu.command.follow", Items.LEAD),
+            new RadialMenu.Option("key.craft_team.menu.command.stay", Items.COBWEB),
+    }, 50);
+
     private static final RadialMenu mainMenu = new RadialMenu(new RadialMenu.Option[] {
             new RadialMenu.Option("key.craft_team.menu.change_owner", Items.NAME_TAG),
             new RadialMenu.Option("key.craft_team.menu.command", Items.BELL),
@@ -18,6 +29,7 @@ public class MenuRender {
     public static void render(GuiGraphics graphics) {
         originX = (graphics.guiWidth() - 1) / 2;
         originY = (graphics.guiHeight() - 1) / 2;
+
         mainMenu.draw(graphics);
     }
 
