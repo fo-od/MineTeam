@@ -7,6 +7,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.cachedSelectedOption;
+import static dev.fooduhhh.craft_team.client.actions.MenuHandler.closeMenu;
+import static dev.fooduhhh.craft_team.client.actions.MenuHandler.onMenuClose;
+import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
 
 public class MenuHelper {
     public static RadialMenu currentMenu;
@@ -17,27 +20,15 @@ public class MenuHelper {
             public final ItemStack item;
             public int x;
             public int y;
-            private final Runnable onClick;
-            private final RadialMenu nextMenu;
+            public final Runnable onClick;
+            public final RadialMenu nextMenu;
 
             public Option(String key, Item item) {
                 this(key, item.getDefaultInstance(), null, null);
             }
 
-            public Option(String key, ItemStack item) {
-                this(key, item, null, null);
-            }
-
             public Option(String key, Item item, RadialMenu nextMenu) {
                 this(key, item.getDefaultInstance(), nextMenu, null);
-            }
-
-            public Option(String key, ItemStack item, RadialMenu nextMenu) {
-                this(key, item, nextMenu, null);
-            }
-
-            public Option(String key, ItemStack item, Runnable onClick) {
-                this(key, item, null, onClick);
             }
 
             public Option(String key, ItemStack item, RadialMenu nextMenu, Runnable onClick) {
@@ -58,7 +49,13 @@ public class MenuHelper {
 
             public void click() {
                 if (onClick != null) onClick.run();
-                if (nextMenu != null) currentMenu = nextMenu;
+                if (nextMenu != null) {
+                    currentMenu = nextMenu;
+                } else {
+                    currentMenu = mainMenu;
+                    closeMenu();
+                    onMenuClose();
+                }
             }
         }
 
@@ -90,12 +87,27 @@ public class MenuHelper {
         }
 
         public void handleSelection(double angle) {
-            double shifted = normalizeAngle(angleOffset - angle);
             int n = options.length;
-            int idx = (int) Math.floor((shifted + step / 2.0) / step) % n;
-            if (idx < 0) idx += n;
 
-            cachedSelectedOption = options[idx];
+            double bestDist = Double.POSITIVE_INFINITY;
+            int bestIdx = 0;
+
+            for (int i = 0; i < n; i++) {
+                double theta = this.angleOffset - i * this.step;
+
+                // angular distance in [0, 2π)
+                double d = MenuHelper.normalizeAngle(angle - theta);
+
+                // shortest wrap-around distance in [0, π]
+                d = Math.min(d, (Math.PI * 2.0) - d);
+
+                if (d < bestDist) {
+                    bestDist = d;
+                    bestIdx = i;
+                }
+            }
+
+            cachedSelectedOption = options[bestIdx];
         }
     }
 
