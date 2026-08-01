@@ -4,6 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.fooduhhh.craft_team.common.Constants;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -12,10 +14,9 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuHelper.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
+import static dev.fooduhhh.craft_team.common.config.CraftTeamConfig.entityReach;
 
 public class MenuHandler {
-    public static final int MAX_DISTANCE = 100; // max mob distance from player squared
-
     public static boolean isMenuOpen = false;
     private static boolean wasMenuOpen = false;
 
@@ -38,8 +39,12 @@ public class MenuHandler {
         initializeCache();
 
         HitResult hitResult = Constants.MINECRAFT.hitResult;
-        if (hitResult != null && hitResult.distanceTo(Constants.MINECRAFT.player) < MAX_DISTANCE) {
-            Constants.LOGGER.info("Looking at entity <10 blocks away");
+
+        if (Constants.MINECRAFT.player == null || hitResult == null) return;
+
+        if (hitResult.getType() == HitResult.Type.ENTITY && hitResult.distanceTo(Constants.MINECRAFT.player) < entityReach.get()) {
+            Entity entity = ((EntityHitResult) hitResult).getEntity();
+            System.out.println(entity.getEntityData().getNonDefaultValues());
         } else {
             Constants.LOGGER.info("Not looking at entity / entity is too far");
         }

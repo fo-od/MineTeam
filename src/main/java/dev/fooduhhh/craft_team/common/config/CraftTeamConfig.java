@@ -20,6 +20,7 @@ public class CraftTeamConfig {
     private static final ModConfigSpec.ConfigValue<List<? extends String>> tamingMaterials;
     private static final BiMap<EntityType<?>, Ingredient> tamingMaterialMap = HashBiMap.create();
     public static final ModConfigSpec.ConfigValue<Double> deadzone;
+    public static final ModConfigSpec.ConfigValue<Double> entityReach;
 
     public static final ModConfigSpec.BooleanValue allowDamageSelf;
 
@@ -39,7 +40,13 @@ public class CraftTeamConfig {
                 .comment("Whether or not to allow entities within the Team to attack themselves")
                 .define("server.allowDamageSelf", true);
 
-        deadzone = builder.comment("Deadzone for menu selection in pixels (scales with GUI scale)").define("client.deadzone", 12.5);
+        entityReach = builder
+                .comment("How far from an entity players can open the action menu (squared)")
+                .define("server.entityReach", 100.0);
+
+        deadzone = builder
+                .comment("Deadzone for menu selection in pixels (scales with GUI scale)")
+                .define("client.deadzone", 12.5);
 
         CONFIG = builder.build();
     }
