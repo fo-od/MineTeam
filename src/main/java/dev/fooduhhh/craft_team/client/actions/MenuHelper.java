@@ -88,6 +88,7 @@ public class MenuHelper {
 
         public void handleSelection(double angle) {
             int n = options.length;
+            if (n == 2) angle += Math.PI; // n=2 is flipped for some reason
 
             double bestDist = Double.POSITIVE_INFINITY;
             int bestIdx = 0;
