@@ -3,6 +3,10 @@ Craft Team
 > [!NOTE]
 > This mod only supports Minecraft 1.21.1 (NeoForge 21.x)
 
+My fork of [Mine Team](https://github.com/XiaoHuNao/MineTeam), 
+inspired [Better Mine Team](https://github.com/i113w/BetterMineTeam), 
+with some code taken from [Slice](https://github.com/ansi-sudo/Slice)
+
 | Command           | Description                                                                      |
 |-------------------|----------------------------------------------------------------------------------|
 | `/craftteam init` | Initializes the teams (for worlds that have been created before mod installation |

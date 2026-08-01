@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import static dev.fooduhhh.craft_team.client.actions.MenuCache.cachedSelectedOption;
+
 public class MenuHelper {
     public static RadialMenu currentMenu;
 
@@ -15,7 +17,6 @@ public class MenuHelper {
             public final ItemStack item;
             public int x;
             public int y;
-            public boolean selected;
             private final Runnable onClick;
             private final RadialMenu nextMenu;
 
@@ -46,7 +47,7 @@ public class MenuHelper {
                 this.nextMenu = nextMenu;
             }
 
-            public void draw(GuiGraphics graphics, int centerX, int centerY) {
+            public void draw(GuiGraphics graphics, int centerX, int centerY, boolean selected) {
                 drawRectCentered(graphics, 24, 24, centerX - x, centerY - y, 0x67000000);
                 drawCenteredString(graphics, Component.translatable(key), centerX - x, centerY - y + 15, 0xffffffff);
                 graphics.renderFakeItem(item, centerX - x - 8, centerY - y - 8);
@@ -62,6 +63,8 @@ public class MenuHelper {
         }
 
         public Option[] options;
+        public double angleOffset;
+        public double step;
 
         public RadialMenu(Option[] options, int radius) {
             this(options, radius, 0);
@@ -69,39 +72,31 @@ public class MenuHelper {
 
         public RadialMenu(Option[] options, int radius, double angleOffset) {
             this.options = options;
+
+            this.step = (Math.PI * 2.0) / options.length;
+            this.angleOffset = angleOffset;
+
             for (int i = 0; i < options.length; i++) {
-                Point p = getRadialPoint(options.length, radius, i, angleOffset);
-                options[i].x = p.x;
-                options[i].y = p.y;
+                double theta = this.angleOffset + i * step;
+                options[i].x = (int) Math.round((Math.cos(theta) * radius));
+                options[i].y = (int) Math.round(Math.sin(theta) * radius);
             }
         }
 
         public void draw(GuiGraphics graphics, int centerX, int centerY) {
             for (Option option : options) {
-                option.draw(graphics, centerX, centerY);
+                option.draw(graphics, centerX, centerY, cachedSelectedOption == option);
             }
         }
 
-        public boolean handleSelection(double mouseX, double mouseY) {
-            // reimplement
-            return false;
+        public void handleSelection(double angle) {
+            double shifted = normalizeAngle(angleOffset - angle);
+            int n = options.length;
+            int idx = (int) Math.floor((shifted + step / 2.0) / step) % n;
+            if (idx < 0) idx += n;
+
+            cachedSelectedOption = options[idx];
         }
-    }
-
-    private static class Point {
-        public int x;
-        public int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    private static Point getRadialPoint(int count, int radius, int index, double angleOffset) {
-        double step = (Math.PI * 2.0) / count;
-        double theta = angleOffset + index * step;
-        return new Point((int) Math.round((Math.cos(theta) * radius)), (int) Math.round(Math.sin(theta) * radius));
     }
 
     private static void drawRectCentered(GuiGraphics graphics, int width, int height, int x, int y, int color) {
@@ -114,24 +109,9 @@ public class MenuHelper {
         graphics.drawCenteredString(Constants.MINECRAFT.font, text, x, y, color);
     }
 
-    public static int cachedScreenWidth = -1;
-    public static int cachedScreenHeight = -1;
-    public static int cachedCenterX = -1;
-    public static int cachedCenterY = -1;
-
-    public static void clearCache() {
-        cachedScreenWidth = -1;
-        cachedScreenHeight = -1;
-        cachedCenterX = -1;
-        cachedCenterY = -1;
-    }
-
-    public static void initializeCache() {
-        if (cachedScreenWidth == -1 && cachedScreenHeight == -1) {
-            cachedScreenWidth = Constants.MINECRAFT.getWindow().getGuiScaledWidth();
-            cachedScreenHeight = Constants.MINECRAFT.getWindow().getGuiScaledHeight();
-            cachedCenterX = cachedScreenWidth / 2;
-            cachedCenterY = cachedScreenHeight / 2;
-        }
+    public static double normalizeAngle(double a) {
+        a %= (Math.PI * 2.0);
+        if (a < 0) a += Math.PI * 2.0;
+        return a;
     }
 }

@@ -8,11 +8,13 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
+import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuHelper.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
 
 public class MenuHandler {
-    public static final float MAX_DISTANCE = 100; // max mob distance from player squared
+    public static final int MAX_DISTANCE = 100; // max mob distance from player squared
+    private static final double DEADZONE = 12.5; // selection deadzone distance from center
 
     public static boolean isMenuOpen = false;
     private static boolean wasMenuOpen = false;
@@ -66,9 +68,14 @@ public class MenuHandler {
         wasMenuOpen = isDown;
     }
 
-    public static boolean handleMouseInput(double mouseX, double mouseY) {
-        if (isMouseInDeadzone(mouseX, mouseY)) return false;
-        return currentMenu.handleSelection(mouseX, mouseY);
+    public static void handleMouseInput(double mouseX, double mouseY) {
+        if (isMouseInDeadzone(mouseX, mouseY)) {
+            cachedSelectedOption = null;
+            return;
+        }
+
+        double mouseAngle = mouseAngle(mouseX, mouseY);
+        currentMenu.handleSelection(mouseAngle);
     }
 
     public static void onMenuClose() {
@@ -76,6 +83,26 @@ public class MenuHandler {
     }
 
     private static boolean isMouseInDeadzone(double mouseX, double mouseY) {
-        return true;
+        mouseX = projectMouseX(mouseX, cachedScaledScreenWidth, cachedScreenWidth, cachedScaledCenterX);
+        mouseY = projectMouseY(mouseY, cachedScaledScreenHeight, cachedScreenHeight, cachedScaledCenterY);
+        double distanceFromCenter = mouseX * mouseX + mouseY * mouseY;
+        return distanceFromCenter <= (DEADZONE * DEADZONE);
+    }
+
+    private static double mouseAngle(double mouseX, double mouseY) {
+        double dy = mouseY - cachedCenterY;
+        double dx = mouseX - cachedCenterX;
+        double angle = Math.atan2(-dy, dx);
+        return MenuHelper.normalizeAngle(angle);
+    }
+
+    // taken from Slice
+
+    public static double projectMouseX(double rawX, int cachedScreenWidth, int screenWidth, int centerX) {
+        return rawX * cachedScreenWidth / screenWidth - centerX;
+    }
+
+    public static double projectMouseY(double rawY, int cachedScreenHeight, int screenHeight, int centerY) {
+        return rawY * cachedScreenHeight / screenHeight - centerY;
     }
 }

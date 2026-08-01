@@ -1,5 +1,6 @@
 package dev.fooduhhh.craft_team;
 
+import dev.fooduhhh.craft_team.client.actions.MenuCache;
 import dev.fooduhhh.craft_team.client.actions.MenuHandler;
 import dev.fooduhhh.craft_team.client.actions.MenuHelper;
 import dev.fooduhhh.craft_team.client.actions.MenuRender;
@@ -42,8 +43,8 @@ public class CraftTeam {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            MenuHelper.currentMenu = MenuRender.mainMenu;
-            MenuHelper.initializeCache();
+            MenuHelper.currentMenu = MenuRender.commandMenu;
+            MenuCache.initializeCache();
         }
 
         @SubscribeEvent
