@@ -48,7 +48,7 @@ public class MenuHandler {
         if (!isMenuOpen) return;
         isMenuOpen = false;
         Constants.MINECRAFT.mouseHandler.grabMouse();
-        if (cachedSelectedOption != null) {
+        if (cachedSelectedOption != null && cachedSelectedOption.nextMenu == null) {
             cachedSelectedOption.click();
         }
         clearCache();
@@ -107,7 +107,7 @@ public class MenuHandler {
     private static double mouseAngle(double mouseX, double mouseY) {
         double dy = mouseY - cachedCenterY;
         double dx = mouseX - cachedCenterX;
-        double angle = Math.atan2(dy, dx);
+        double angle = Math.atan2(-dy, dx);
         return MenuHelper.normalizeAngle(angle);
     }
 
