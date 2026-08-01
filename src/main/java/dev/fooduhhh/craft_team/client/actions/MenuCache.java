@@ -15,6 +15,8 @@ public class MenuCache {
     public static int cachedCenterY = -1;
 
     public static void clearCache() {
+        cachedSelectedOption = null;
+
         cachedScaledScreenWidth = -1;
         cachedScaledScreenHeight = -1;
         cachedScaledCenterX = -1;

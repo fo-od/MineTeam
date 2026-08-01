@@ -26,10 +26,9 @@ public class CraftTeamClient {
 
     @SubscribeEvent
     public static void onClick(InputEvent.MouseButton.Pre event) {
-        if (MenuHandler.isMenuOpen) {
-            MenuHandler.closeMenu();
+        if (MenuHandler.isMenuOpen && event.getAction() == 1) {
+            MenuHandler.handleClick();
             event.setCanceled(true);
         }
     }
-
 }

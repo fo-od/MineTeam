@@ -82,6 +82,18 @@ public class MenuHandler {
         currentMenu = mainMenu;
     }
 
+    public static void handleClick() {
+        if (cachedSelectedOption == null) {
+            onMenuClose();
+            wasMenuOpen = true;
+            return;
+        }
+
+        cachedSelectedOption.click();
+        clearCache();
+        initializeCache();
+    }
+
     private static boolean isMouseInDeadzone(double mouseX, double mouseY) {
         mouseX = projectMouseX(mouseX, cachedScaledScreenWidth, cachedScreenWidth, cachedScaledCenterX);
         mouseY = projectMouseY(mouseY, cachedScaledScreenHeight, cachedScreenHeight, cachedScaledCenterY);
