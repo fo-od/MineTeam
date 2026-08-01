@@ -34,6 +34,7 @@ public class MenuHandler {
         if (isMenuOpen) return;
         isMenuOpen = true;
         Constants.MINECRAFT.mouseHandler.releaseMouse();
+        currentMenu = mainMenu;
         initializeCache();
 
         HitResult hitResult = Constants.MINECRAFT.hitResult;
