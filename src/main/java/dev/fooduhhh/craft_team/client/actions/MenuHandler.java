@@ -2,6 +2,7 @@ package dev.fooduhhh.craft_team.client.actions;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.fooduhhh.craft_team.common.Constants;
+import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -14,7 +15,6 @@ import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
 
 public class MenuHandler {
     public static final int MAX_DISTANCE = 100; // max mob distance from player squared
-    private static final double DEADZONE = 12.5; // selection deadzone distance from center
 
     public static boolean isMenuOpen = false;
     private static boolean wasMenuOpen = false;
@@ -101,7 +101,7 @@ public class MenuHandler {
         mouseX = projectMouseX(mouseX, cachedScaledScreenWidth, cachedScreenWidth, cachedScaledCenterX);
         mouseY = projectMouseY(mouseY, cachedScaledScreenHeight, cachedScreenHeight, cachedScaledCenterY);
         double distanceFromCenter = mouseX * mouseX + mouseY * mouseY;
-        return distanceFromCenter <= (DEADZONE * DEADZONE);
+        return distanceFromCenter <= (CraftTeamConfig.deadzone.get() * CraftTeamConfig.deadzone.get());
     }
 
     private static double mouseAngle(double mouseX, double mouseY) {

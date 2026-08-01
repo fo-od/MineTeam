@@ -19,6 +19,7 @@ public class CraftTeamConfig {
 
     private static final ModConfigSpec.ConfigValue<List<? extends String>> tamingMaterials;
     private static final BiMap<EntityType<?>, Ingredient> tamingMaterialMap = HashBiMap.create();
+    public static final ModConfigSpec.ConfigValue<Double> deadzone;
 
     public static final ModConfigSpec.BooleanValue allowDamageSelf;
 
@@ -27,7 +28,7 @@ public class CraftTeamConfig {
         tamingMaterials = builder
                 .comment("List of materials that can be used to tame entities")
                 .comment("Format: entity-ingredient,'minecraft:wolf-{'item':'minecraft:bone'}'")
-                .define("tamingMaterials", List.of(), str -> {
+                .define("server.tamingMaterials", List.of(), str -> {
                     if (!(str instanceof String)) {
                         return false;
                     }
@@ -36,7 +37,10 @@ public class CraftTeamConfig {
 
         allowDamageSelf = builder
                 .comment("Whether or not to allow entities within the Team to attack themselves")
-                .define("allowDamageSelf", true);
+                .define("server.allowDamageSelf", true);
+
+        deadzone = builder.comment("Deadzone for menu selection in pixels (scales with GUI scale)").define("client.deadzone", 12.5);
+
         CONFIG = builder.build();
     }
 
