@@ -70,7 +70,7 @@ public class MenuHandler {
 
     public static void handleMouseInput(double mouseX, double mouseY) {
         if (isMouseInDeadzone(mouseX, mouseY)) {
-            cachedSelectedOption = null;
+            if (cachedSelectedOption != null) cachedSelectedOption = null;
             return;
         }
 
