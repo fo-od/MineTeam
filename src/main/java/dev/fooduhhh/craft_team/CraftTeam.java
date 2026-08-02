@@ -2,7 +2,7 @@ package dev.fooduhhh.craft_team;
 
 import dev.fooduhhh.craft_team.client.actions.MenuCache;
 import dev.fooduhhh.craft_team.client.actions.MenuHandler;
-import dev.fooduhhh.craft_team.client.actions.MenuHelper;
+import dev.fooduhhh.craft_team.client.actions.MenuRenderHelper;
 import dev.fooduhhh.craft_team.client.actions.MenuRender;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +43,7 @@ public class CraftTeam {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            MenuHelper.currentMenu = MenuRender.commandMenu;
+            MenuRenderHelper.currentMenu = MenuRender.commandMenu;
             MenuCache.initializeCache();
         }
 

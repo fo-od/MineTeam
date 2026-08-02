@@ -10,7 +10,7 @@ import static dev.fooduhhh.craft_team.client.actions.MenuHandler.closeMenu;
 import static dev.fooduhhh.craft_team.client.actions.MenuHandler.onMenuClose;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.*;
 
-public class MenuHelper {
+public class MenuRenderHelper {
     public static RadialMenu currentMenu;
 
     public static class RadialMenu {
@@ -96,7 +96,7 @@ public class MenuHelper {
                 double theta = this.angleOffset - i * this.step;
 
                 // angular distance in [0, 2π)
-                double d = MenuHelper.normalizeAngle(angle - theta);
+                double d = MenuRenderHelper.normalizeAngle(angle - theta);
 
                 // shortest wrap-around distance in [0, π]
                 d = Math.min(d, (Math.PI * 2.0) - d);

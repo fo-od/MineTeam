@@ -13,8 +13,8 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 @EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class CraftTeamClient {
     @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
-        MenuHandler.onClientTick(event);
+    public static void onClientTick(ClientTickEvent.Post ignoredEvent) {
+        MenuHandler.onClientTick();
     }
 
     @SubscribeEvent

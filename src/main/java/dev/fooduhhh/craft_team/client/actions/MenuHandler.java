@@ -7,12 +7,11 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
-import static dev.fooduhhh.craft_team.client.actions.MenuHelper.*;
+import static dev.fooduhhh.craft_team.client.actions.MenuRenderHelper.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.commandMenu;
 
 public class MenuHandler {
@@ -48,7 +47,7 @@ public class MenuHandler {
         clearCache();
     }
 
-    public static void onClientTick(ClientTickEvent.Post event) {
+    public static void onClientTick() {
         boolean isDown = ACTION_MENU_MAPPING.isDown();
         if (!isDown && wasMenuOpen) {
             closeMenu();
@@ -74,6 +73,10 @@ public class MenuHandler {
         wasMenuOpen = isDown;
     }
 
+    public static void onMenuClose() {
+        currentMenu = commandMenu;
+    }
+
     public static void handleMouseInput(double mouseX, double mouseY) {
         if (isMouseInDeadzone(mouseX, mouseY)) {
             if (cachedSelectedOption != null) cachedSelectedOption = null;
@@ -82,10 +85,6 @@ public class MenuHandler {
 
         double mouseAngle = mouseAngle(mouseX, mouseY);
         currentMenu.handleSelection(mouseAngle);
-    }
-
-    public static void onMenuClose() {
-        currentMenu = commandMenu;
     }
 
     public static void handleClick() {
@@ -111,7 +110,7 @@ public class MenuHandler {
         double dy = mouseY - cachedCenterY;
         double dx = mouseX - cachedCenterX;
         double angle = Math.atan2(-dy, dx);
-        return MenuHelper.normalizeAngle(angle);
+        return MenuRenderHelper.normalizeAngle(angle);
     }
 
     // taken from Slice

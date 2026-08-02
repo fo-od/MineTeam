@@ -6,7 +6,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class MenuCache {
-    public static MenuHelper.RadialMenu.Option cachedSelectedOption = null;
+    public static MenuRenderHelper.RadialMenu.Option cachedSelectedOption = null;
     public static Entity cachedSelectedEntity = null;
     public static int cachedScaledScreenWidth = -1;
     public static int cachedScaledScreenHeight = -1;
