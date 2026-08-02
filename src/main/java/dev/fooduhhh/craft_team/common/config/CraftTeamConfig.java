@@ -26,6 +26,9 @@ public class CraftTeamConfig {
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+
+        // server sided stuff
+
         tamingMaterials = builder
                 .comment("List of materials that can be used to tame entities")
                 .comment("Format: entity-ingredient,'minecraft:wolf-{'item':'minecraft:bone'}'")
@@ -43,6 +46,8 @@ public class CraftTeamConfig {
         entityReach = builder
                 .comment("How far from an entity players can open the action menu (squared)")
                 .define("server.entityReach", 100.0);
+
+        // client sided stuff
 
         deadzone = builder
                 .comment("Deadzone for menu selection in pixels (scales with GUI scale)")
