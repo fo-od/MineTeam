@@ -26,10 +26,12 @@ public class LivingEventSubscriber {
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
         String teamColor = player.getPersistentData().getString("teamColor");
+
         if (teamColor.isEmpty()) {
             teamColor = "white";
             player.getPersistentData().putString("teamColor", teamColor);
         }
+
         PacketDistributor.sendToPlayer((ServerPlayer) player, new TeamColorSyncPayload(teamColor));
 
         boolean teamPvP = CraftTeamConfig.allowDamageSelf.get();
@@ -39,8 +41,10 @@ public class LivingEventSubscriber {
         ServerLevel level = (ServerLevel) player.level();
         Scoreboard scoreboard = level.getServer().getScoreboard();
         PlayerTeam team = scoreboard.getPlayersTeam(player.getScoreboardName());
+
         if (team == null) {
             PlayerTeam playerTeam = scoreboard.getPlayerTeam("white");
+
             if (playerTeam != null) {
                 scoreboard.addPlayerToTeam(player.getScoreboardName(), playerTeam);
             }
@@ -52,16 +56,20 @@ public class LivingEventSubscriber {
         LivingEntity hurtEntity = event.getEntity();
         DamageSource source = event.getSource();
         Entity attackEntity = source.getEntity();
+
         if (hurtEntity.level() instanceof ServerLevel serverLevel && attackEntity != null) {
             ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
             PlayerTeam attackEntityTeam = scoreboard.getPlayersTeam(attackEntity.getScoreboardName());
             PlayerTeam hurtEntityTeam = scoreboard.getPlayersTeam(hurtEntity.getScoreboardName());
+
             if (attackEntity == hurtEntity && CraftTeamConfig.allowDamageSelf.get()) {
                 return;
             }
+
             if (attackEntityTeam == null || hurtEntityTeam != attackEntityTeam) {
                 return;
             }
+
             boolean teamPvP = hurtEntity.getPersistentData().getBoolean("teamPvP");
             boolean teamPvP1 = attackEntity.getPersistentData().getBoolean("teamPvP");
             if (!teamPvP && !teamPvP1) {
@@ -77,8 +85,10 @@ public class LivingEventSubscriber {
         if (event.isWasDeath() && !entity.level().isClientSide()) {
             String teamColor = original.getPersistentData().getString("teamColor");
             boolean teamPvP = original.getPersistentData().getBoolean("teamPvP");
+
             entity.getPersistentData().putString("teamColor", teamColor);
             entity.getPersistentData().putBoolean("teamPvP", teamPvP);
+
             PacketDistributor.sendToPlayer((ServerPlayer) entity, new TeamColorSyncPayload(teamColor));
             PacketDistributor.sendToPlayer((ServerPlayer) entity, new TeamPvPSyncPayload(teamPvP));
         }
@@ -90,14 +100,17 @@ public class LivingEventSubscriber {
         LivingEntity hurtEntity = event.getEntity();
         DamageSource source = event.getSource();
         Entity attackEntity = source.getEntity();
+
         if (hurtEntity.level() instanceof ServerLevel serverLevel && attackEntity != null) {
             ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
             PlayerTeam attackEntityTeam = scoreboard.getPlayersTeam(attackEntity.getScoreboardName());
             PlayerTeam hurtEntityTeam = scoreboard.getPlayersTeam(hurtEntity.getScoreboardName());
+
             if (attackEntity instanceof Player && attackEntityTeam instanceof PlayerTeamMixed playerTeamMixed) {
                 playerTeamMixed.craftTeam$setLastHurtMob(hurtEntity);
                 playerTeamMixed.craftTeam$setLastHurtTeam(hurtEntityTeam);
             }
+
             if (hurtEntity instanceof Player && hurtEntityTeam instanceof PlayerTeamMixed playerTeamMixed) {
                 playerTeamMixed.craftTeam$setLastHurtMob(attackEntity);
                 playerTeamMixed.craftTeam$setLastHurtTeam(attackEntityTeam);

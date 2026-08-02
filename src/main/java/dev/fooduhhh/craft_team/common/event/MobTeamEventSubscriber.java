@@ -31,23 +31,29 @@ public class MobTeamEventSubscriber {
         Level level = event.getLevel();
         InteractionHand hand = event.getHand();
         Player player = event.getEntity();
+
         if (level.isClientSide() || hand != InteractionHand.MAIN_HAND) {
             return;
         }
+
         ItemStack itemstack = player.getItemInHand(hand);
         Entity target = event.getTarget();
         Ingredient tamingMaterial = CraftTeamConfig.getTamingMaterial(target.getType());
         CompoundTag tag = target.getPersistentData();
+
         if (tamingMaterial.test(itemstack) && target instanceof LivingEntity livingEntity && !tag.contains("teamTamingTime")) {
             ServerLevel serverLevel = (ServerLevel) level;
             PlayerTeam playersTeam = serverLevel.getServer().getScoreboard().getPlayersTeam(target.getScoreboardName());
+
             if (livingEntity.hasEffect(MobEffects.WEAKNESS) && playersTeam == null) {
                 itemstack.consume(1, player);
                 livingEntity.getPersistentData().putInt("TeamConversionTime", livingEntity.level().random.nextInt(2401) + 3600);
                 tag.putString("teamTamingColor", player.getPersistentData().getString("teamColor"));
+
                 livingEntity.removeEffect(MobEffects.WEAKNESS);
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Math.min(livingEntity.level().getDifficulty().getId() - 1, 0)));
                 livingEntity.setGlowingTag(true);
+
                 String teamColor = tag.getString("teamTamingColor");
                 ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
                 scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), Objects.requireNonNull(scoreboard.getPlayerTeam(teamColor)));
@@ -69,8 +75,11 @@ public class MobTeamEventSubscriber {
                 String teamColor = tag.getString("teamTamingColor");
                 ServerLevel serverLevel = (ServerLevel) livingEntity.level();
                 ServerScoreboard scoreboard = serverLevel.getServer().getScoreboard();
+
                 scoreboard.addPlayerToTeam(livingEntity.getScoreboardName(), Objects.requireNonNull(scoreboard.getPlayerTeam(teamColor)));
+
                 livingEntity.setGlowingTag(true);
+
                 tag.remove("teamTamingTime");
                 tag.remove("teamTamingColor");
             } else {
