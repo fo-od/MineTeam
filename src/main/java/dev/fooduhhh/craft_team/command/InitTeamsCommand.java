@@ -1,4 +1,4 @@
-package dev.fooduhhh.craft_team.common.command;
+package dev.fooduhhh.craft_team.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import dev.fooduhhh.craft_team.common.Constants;
