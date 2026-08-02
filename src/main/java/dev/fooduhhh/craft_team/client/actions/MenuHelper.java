@@ -1,6 +1,5 @@
 package dev.fooduhhh.craft_team.client.actions;
 
-import dev.fooduhhh.craft_team.common.Constants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -9,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.cachedSelectedOption;
 import static dev.fooduhhh.craft_team.client.actions.MenuHandler.closeMenu;
 import static dev.fooduhhh.craft_team.client.actions.MenuHandler.onMenuClose;
-import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
+import static dev.fooduhhh.craft_team.client.actions.MenuRender.*;
 
 public class MenuHelper {
     public static RadialMenu currentMenu;
@@ -52,7 +51,7 @@ public class MenuHelper {
                 if (nextMenu != null) {
                     currentMenu = nextMenu;
                 } else {
-                    currentMenu = mainMenu;
+                    currentMenu = MenuRender.commandMenu;
                     closeMenu();
                     onMenuClose();
                 }
@@ -110,16 +109,6 @@ public class MenuHelper {
 
             cachedSelectedOption = options[bestIdx];
         }
-    }
-
-    private static void drawRectCentered(GuiGraphics graphics, int width, int height, int x, int y, int color) {
-        int left = x - width / 2;
-        int top = y - height / 2;
-        graphics.fill(left, top, left + width, top + height, color);
-    }
-
-    private static void drawCenteredString(GuiGraphics graphics, Component text, int x, int y, int color) {
-        graphics.drawCenteredString(Constants.MINECRAFT.font, text, x, y, color);
     }
 
     public static double normalizeAngle(double a) {

@@ -43,7 +43,7 @@ public class CraftTeam {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            MenuHelper.currentMenu = MenuRender.mainMenu;
+            MenuHelper.currentMenu = MenuRender.commandMenu;
             MenuCache.initializeCache();
         }
 

@@ -13,7 +13,7 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuHelper.*;
-import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
+import static dev.fooduhhh.craft_team.client.actions.MenuRender.commandMenu;
 
 public class MenuHandler {
     public static boolean isMenuOpen = false;
@@ -34,7 +34,7 @@ public class MenuHandler {
         if (isMenuOpen) return;
         isMenuOpen = true;
         Constants.MINECRAFT.mouseHandler.releaseMouse();
-        currentMenu = mainMenu;
+        currentMenu = commandMenu;
         initializeCache();
     }
 
@@ -85,7 +85,7 @@ public class MenuHandler {
     }
 
     public static void onMenuClose() {
-        currentMenu = mainMenu;
+        currentMenu = commandMenu;
     }
 
     public static void handleClick() {
