@@ -2,7 +2,6 @@ package dev.fooduhhh.craft_team.client.actions;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.fooduhhh.craft_team.common.Constants;
-import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.EntityHitResult;
@@ -78,12 +77,12 @@ public class MenuHandler {
     }
 
     public static void handleMouseInput(double mouseX, double mouseY) {
-        if (isMouseInDeadzone(mouseX, mouseY)) {
+        if (MenuHelper.isMouseInDeadzone(mouseX, mouseY)) {
             if (cachedSelectedOption != null) cachedSelectedOption = null;
             return;
         }
 
-        double mouseAngle = mouseAngle(mouseX, mouseY);
+        double mouseAngle = MenuHelper.mouseAngle(mouseX, mouseY);
         currentMenu.handleSelection(mouseAngle);
     }
 
@@ -97,29 +96,5 @@ public class MenuHandler {
         cachedSelectedOption.click();
         clearCache();
         initializeCache();
-    }
-
-    private static boolean isMouseInDeadzone(double mouseX, double mouseY) {
-        mouseX = projectMouseX(mouseX, cachedScaledScreenWidth, cachedScreenWidth, cachedScaledCenterX);
-        mouseY = projectMouseY(mouseY, cachedScaledScreenHeight, cachedScreenHeight, cachedScaledCenterY);
-        double distanceFromCenter = mouseX * mouseX + mouseY * mouseY;
-        return distanceFromCenter <= (CraftTeamConfig.deadzone.get() * CraftTeamConfig.deadzone.get());
-    }
-
-    private static double mouseAngle(double mouseX, double mouseY) {
-        double dy = mouseY - cachedCenterY;
-        double dx = mouseX - cachedCenterX;
-        double angle = Math.atan2(-dy, dx);
-        return MenuRenderHelper.normalizeAngle(angle);
-    }
-
-    // taken from Slice
-
-    public static double projectMouseX(double rawX, int cachedScreenWidth, int screenWidth, int centerX) {
-        return rawX * cachedScreenWidth / screenWidth - centerX;
-    }
-
-    public static double projectMouseY(double rawY, int cachedScreenHeight, int screenHeight, int centerY) {
-        return rawY * cachedScreenHeight / screenHeight - centerY;
     }
 }
