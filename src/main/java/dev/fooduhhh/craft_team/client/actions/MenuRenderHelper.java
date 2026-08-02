@@ -20,21 +20,15 @@ public class MenuRenderHelper {
             public int x;
             public int y;
             public final Runnable onClick;
-            public final RadialMenu nextMenu;
 
-            public Option(String key, Item item) {
-                this(key, item.getDefaultInstance(), null, null);
+            public Option(String key, Item item, Runnable onClick) {
+                this(key, item.getDefaultInstance(), onClick);
             }
 
-            public Option(String key, Item item, RadialMenu nextMenu) {
-                this(key, item.getDefaultInstance(), nextMenu, null);
-            }
-
-            public Option(String key, ItemStack item, RadialMenu nextMenu, Runnable onClick) {
+            public Option(String key, ItemStack item, Runnable onClick) {
                 this.key = key;
                 this.item = item;
                 this.onClick = onClick;
-                this.nextMenu = nextMenu;
             }
 
             public void draw(GuiGraphics graphics, int centerX, int centerY, boolean selected) {
@@ -48,23 +42,16 @@ public class MenuRenderHelper {
 
             public void click() {
                 if (onClick != null) onClick.run();
-                if (nextMenu != null) {
-                    currentMenu = nextMenu;
-                } else {
-                    currentMenu = MenuRender.commandMenu;
-                    closeMenu();
-                    onMenuClose();
-                }
+                currentMenu = MenuRender.commandMenu;
+                closeMenu();
+                onMenuClose();
+
             }
         }
 
         public Option[] options;
         public double angleOffset;
         public double step;
-
-        public RadialMenu(Option[] options, int radius) {
-            this(options, radius, 0);
-        }
 
         public RadialMenu(Option[] options, int radius, double angleOffset) {
             this.options = options;

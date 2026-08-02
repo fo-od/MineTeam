@@ -40,7 +40,7 @@ public class MenuHandler {
         if (!isMenuOpen) return;
         isMenuOpen = false;
         Constants.MINECRAFT.mouseHandler.grabMouse();
-        if (cachedSelectedOption != null && cachedSelectedOption.nextMenu == null) {
+        if (cachedSelectedOption != null) {
             cachedSelectedOption.click();
         }
         clearCache();
@@ -96,5 +96,25 @@ public class MenuHandler {
         cachedSelectedOption.click();
         clearCache();
         initializeCache();
+    }
+
+    public enum PetGoal {
+        ATTACK, // attack entities that the owner attacks
+        FOLLOW, // follow the owner, and attack entities that attack the owner
+        STAY    // stay in place and do nothing
+    }
+
+    public static void changeGoal(PetGoal goal) {
+        switch (goal) {
+            case ATTACK:
+                System.out.println("attack");
+                break;
+            case FOLLOW:
+                System.out.println("follow");
+                break;
+            case STAY:
+                System.out.println("stay");
+                break;
+        }
     }
 }
