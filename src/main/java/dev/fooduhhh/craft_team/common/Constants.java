@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Constants {
-    public static Minecraft MINECRAFT = Minecraft.getInstance();
+    public static final Minecraft MINECRAFT = Minecraft.getInstance();
 
     public static final String MOD_ID = "craft_team";
     public static final String MOD_NAME = "Craft Team";
