@@ -56,7 +56,7 @@ public class MobTeamEventSubscriber {
                 scoreboard.addPlayerToTeam(livingEntity.getStringUUID(), playersTeam);
                 livingEntity.getPersistentData().putString("owner", player.getStringUUID());
 
-                PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(), target.blockPosition()));
+                PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(), target.blockPosition(), player.getStringUUID()));
             }
         }
     }

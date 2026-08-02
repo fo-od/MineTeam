@@ -37,17 +37,6 @@ public class MenuHandler {
         Constants.MINECRAFT.mouseHandler.releaseMouse();
         currentMenu = mainMenu;
         initializeCache();
-
-        HitResult hitResult = Constants.MINECRAFT.hitResult;
-
-        if (Constants.MINECRAFT.player == null || hitResult == null) return;
-
-        if (hitResult.getType() == HitResult.Type.ENTITY && hitResult.distanceTo(Constants.MINECRAFT.player) < entityReach.get()) {
-            Entity entity = ((EntityHitResult) hitResult).getEntity();
-            System.out.println(entity.getEntityData().getNonDefaultValues());
-        } else {
-            Constants.LOGGER.info("Not looking at entity / entity is too far");
-        }
     }
 
     public static void closeMenu() {
@@ -67,7 +56,17 @@ public class MenuHandler {
         }
 
         if (isDown && !wasMenuOpen) {
-            openMenu();
+            HitResult hitResult = Constants.MINECRAFT.hitResult;
+
+            if (hitResult == null) return;
+            if (hitResult.getType() != HitResult.Type.ENTITY) return;
+            if (hitResult.distanceTo(Constants.MINECRAFT.player) > entityReach.get()) return;
+
+            Entity entity = ((EntityHitResult) hitResult).getEntity();
+            String ownerUUID = entity.getPersistentData().getString("owner");
+            if (Constants.MINECRAFT.player.getStringUUID().equals(ownerUUID)) {
+                openMenu();
+            }
         }
 
         if (isMenuOpen) {
