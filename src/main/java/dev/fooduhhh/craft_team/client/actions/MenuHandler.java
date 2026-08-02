@@ -14,7 +14,6 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuHelper.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.mainMenu;
-import static dev.fooduhhh.craft_team.common.config.CraftTeamConfig.entityReach;
 
 public class MenuHandler {
     public static boolean isMenuOpen = false;
@@ -60,7 +59,6 @@ public class MenuHandler {
 
             if (hitResult == null) return;
             if (hitResult.getType() != HitResult.Type.ENTITY) return;
-            if (hitResult.distanceTo(Constants.MINECRAFT.player) > entityReach.get()) return;
 
             Entity entity = ((EntityHitResult) hitResult).getEntity();
             String ownerUUID = entity.getPersistentData().getString("owner");
