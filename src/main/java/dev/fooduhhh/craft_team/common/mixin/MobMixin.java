@@ -1,5 +1,6 @@
 package dev.fooduhhh.craft_team.common.mixin;
 
+import dev.fooduhhh.craft_team.common.entity.ai.goal.FightWithOwnerGoal;
 import dev.fooduhhh.craft_team.common.entity.ai.goal.TeamOwnerHurtTargetGoal;
 import dev.fooduhhh.craft_team.common.mixed.MobMixed;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -7,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerScoreboard;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,6 +66,15 @@ public abstract class MobMixin extends Entity implements MobMixed {
         if (server != null) {
             ServerScoreboard scoreboard = server.getScoreboard();
             return scoreboard.getPlayerTeam(entityData.get(DATA_FLAGS_ID));
+        }
+        return null;
+    }
+
+    @Override
+    public ServerPlayer craftTeam$getOwner() {
+        MinecraftServer server = this.getServer();
+        if (server != null) {
+            return server.getPlayerList().getPlayer(this.getPersistentData().getUUID("owner"));
         }
         return null;
     }
