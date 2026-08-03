@@ -24,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.annotation.Nullable;
+
 @Mixin(Mob.class)
 public abstract class MobMixin extends Entity implements MobMixed {
     @Shadow
@@ -71,9 +73,12 @@ public abstract class MobMixin extends Entity implements MobMixed {
     }
 
     @Override
+    @Nullable
     public ServerPlayer craftTeam$getOwner() {
         MinecraftServer server = this.getServer();
         if (server != null) {
+            if (!this.getPersistentData().contains("owner")) return null;
+
             return server.getPlayerList().getPlayer(this.getPersistentData().getUUID("owner"));
         }
         return null;

@@ -10,6 +10,8 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 
+import java.util.UUID;
+
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRenderHelper.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.commandMenu;
@@ -109,6 +111,7 @@ public class MenuHandler {
         switch (goal) {
             case ATTACK:
                 System.out.println("attack");
+//                cachedSelectedMob.targetSelector.addGoal(1, new FightWithOwnerGoal(cachedSelectedMob));
                 break;
             case FOLLOW:
                 System.out.println("follow");
