@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.cachedSelectedOption;
 import static dev.fooduhhh.craft_team.client.actions.MenuHandler.closeMenu;
-import static dev.fooduhhh.craft_team.client.actions.MenuHandler.onMenuClose;
 import static dev.fooduhhh.craft_team.client.actions.MenuRender.*;
 
 public class MenuRenderHelper {
@@ -42,10 +41,6 @@ public class MenuRenderHelper {
 
             public void click() {
                 if (onClick != null) onClick.run();
-                currentMenu = MenuRender.commandMenu;
-                closeMenu();
-                onMenuClose();
-
             }
         }
 

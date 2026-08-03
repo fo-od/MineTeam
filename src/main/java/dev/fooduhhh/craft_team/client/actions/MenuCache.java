@@ -1,13 +1,11 @@
 package dev.fooduhhh.craft_team.client.actions;
 
 import dev.fooduhhh.craft_team.common.Constants;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.entity.Mob;
 
 public class MenuCache {
     public static MenuRenderHelper.RadialMenu.Option cachedSelectedOption = null;
-    public static Entity cachedSelectedEntity = null;
+    public static Mob cachedSelectedMob = null;
     public static int cachedScaledScreenWidth = -1;
     public static int cachedScaledScreenHeight = -1;
     public static int cachedScaledCenterX = -1;
@@ -19,7 +17,6 @@ public class MenuCache {
     public static int cachedCenterY = -1;
 
     public static void clearCache() {
-        cachedSelectedEntity = null;
         cachedSelectedOption = null;
 
         cachedScaledScreenWidth = -1;
@@ -35,11 +32,6 @@ public class MenuCache {
 
     public static void initializeCache() {
         if (cachedScaledScreenWidth == -1 && cachedScaledScreenHeight == -1) {
-            HitResult hitResult = Constants.MINECRAFT.hitResult;
-            if (hitResult != null && hitResult.getType() == HitResult.Type.ENTITY) {
-                cachedSelectedEntity = ((EntityHitResult) hitResult).getEntity();
-            }
-
             cachedScaledScreenWidth = Constants.MINECRAFT.getWindow().getGuiScaledWidth();
             cachedScaledScreenHeight = Constants.MINECRAFT.getWindow().getGuiScaledHeight();
             cachedScaledCenterX = cachedScaledScreenWidth / 2;

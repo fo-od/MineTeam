@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.fooduhhh.craft_team.common.Constants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -44,6 +45,7 @@ public class MenuHandler {
             cachedSelectedOption.click();
         }
         clearCache();
+        currentMenu = commandMenu;
     }
 
     public static void onClientTick() {
@@ -59,6 +61,7 @@ public class MenuHandler {
             if (hitResult.getType() != HitResult.Type.ENTITY) return;
 
             Entity entity = ((EntityHitResult) hitResult).getEntity();
+            cachedSelectedMob = (Mob) entity;
             String ownerUUID = entity.getPersistentData().getString("owner");
             if (Constants.MINECRAFT.player.getStringUUID().equals(ownerUUID)) {
                 openMenu();
@@ -70,10 +73,6 @@ public class MenuHandler {
         }
 
         wasMenuOpen = isDown;
-    }
-
-    public static void onMenuClose() {
-        currentMenu = commandMenu;
     }
 
     public static void handleMouseInput(double mouseX, double mouseY) {
@@ -88,14 +87,16 @@ public class MenuHandler {
 
     public static void handleClick() {
         if (cachedSelectedOption == null) {
-            onMenuClose();
+            closeMenu();
             wasMenuOpen = true;
             return;
         }
 
-        cachedSelectedOption.click();
-        clearCache();
-        initializeCache();
+        if (isMenuOpen) {
+            cachedSelectedOption.click();
+            clearCache();
+            closeMenu();
+        }
     }
 
     public enum PetGoal {
