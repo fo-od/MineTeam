@@ -104,7 +104,7 @@ public class MenuHandler {
     public enum PetGoal {
         ATTACK, // attack entities that the owner attacks
         FOLLOW, // follow the owner, and attack entities that attack the owner
-        STAY    // stay in place and do nothing
+        STAY    // stay in place and do nothing (endermen still teleport)
     }
 
     public static void changeGoal(PetGoal goal) {
