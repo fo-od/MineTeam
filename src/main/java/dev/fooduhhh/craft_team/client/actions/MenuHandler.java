@@ -66,6 +66,7 @@ public class MenuHandler {
 
             Entity entity = ((EntityHitResult) hitResult).getEntity();
             cachedSelectedMob = (Mob) entity;
+            if (!entity.getPersistentData().contains("owner")) return;
             UUID ownerUUID = entity.getPersistentData().getUUID("owner");
             if (Constants.MINECRAFT.player.getUUID().equals(ownerUUID)) {
                 openMenu();
