@@ -19,8 +19,9 @@ public class CraftTeamConfig {
 
     private static final ModConfigSpec.ConfigValue<List<? extends String>> tamingMaterials;
     private static final BiMap<EntityType<?>, Ingredient> tamingMaterialMap = HashBiMap.create();
-    public static final ModConfigSpec.ConfigValue<Double> deadzone;
 
+    public static final ModConfigSpec.ConfigValue<Double> mobFollowStopDistance;
+    public static final ModConfigSpec.ConfigValue<Double> deadzone;
     public static final ModConfigSpec.BooleanValue allowDamageSelf;
 
     static {
@@ -41,6 +42,10 @@ public class CraftTeamConfig {
         allowDamageSelf = builder
                 .comment("Whether or not to allow entities within the Team to attack themselves")
                 .define("server.allowDamageSelf", true);
+
+        mobFollowStopDistance = builder
+                .comment("The distance from the owner that tamed mobs will stop following.")
+                .define("server.mobFollowStopDistance", 5.0);
 
         // client sided stuff
 
