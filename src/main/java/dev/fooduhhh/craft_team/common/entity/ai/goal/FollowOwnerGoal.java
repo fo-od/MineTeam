@@ -16,17 +16,15 @@ public class FollowOwnerGoal extends Goal {
 
     private final double speedModifier;
     private final float stopDistance;
-    private final float startDistance;
 
     private final PathNavigation navigation;
     private int timeToRecalcPath;
 
-    public FollowOwnerGoal(Mob mob, double speedModifier, float stopDistance, float startDistance) {
+    public FollowOwnerGoal(Mob mob, double speedModifier, float stopDistance) {
         this.mob = mob;
         this.speedModifier = speedModifier;
         this.navigation = mob.getNavigation();
         this.stopDistance = stopDistance;
-        this.startDistance = startDistance;
 
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
@@ -36,9 +34,7 @@ public class FollowOwnerGoal extends Goal {
         if (this.mob instanceof MobMixed mobMixed) {
             this.owner = mobMixed.craftTeam$getOwner();
 
-            if (owner == null) return false;
-
-            return this.mob.distanceToSqr(this.owner) > (this.startDistance * this.startDistance);
+            return owner != null;
         }
 
         return false;
