@@ -6,19 +6,19 @@ import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
 
-public class DontMoveGoal extends Goal implements CommandGoal {
+public class DontMoveGoal extends Goal {
     private final Mob mob;
 
     public DontMoveGoal(Mob mob) {
         this.mob = mob;
 
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
     }
 
     @Override
     public boolean canUse() {
         if (this.mob instanceof MobMixed mobMixed) {
-            return mobMixed.craftTeam$getOwner() != null;
+            return this.mob.getPersistentData().getInt("goal") == 2 && mobMixed.craftTeam$getOwner() != null;
         }
         return false;
     }
@@ -31,10 +31,5 @@ public class DontMoveGoal extends Goal implements CommandGoal {
     @Override
     public void tick() {
         this.mob.getNavigation().stop();
-    }
-
-    @Override
-    public boolean canContinueToUse() {
-        return true;
     }
 }

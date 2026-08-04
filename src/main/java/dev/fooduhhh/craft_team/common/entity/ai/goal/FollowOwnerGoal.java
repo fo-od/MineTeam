@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 
-public class FollowOwnerGoal extends Goal implements CommandGoal {
+public class FollowOwnerGoal extends Goal {
     private final Mob mob;
     @Nullable
     private ServerPlayer owner;
@@ -34,7 +34,7 @@ public class FollowOwnerGoal extends Goal implements CommandGoal {
         if (this.mob instanceof MobMixed mobMixed) {
             this.owner = mobMixed.craftTeam$getOwner();
 
-            return owner != null;
+            return this.mob.getPersistentData().getInt("goal") == 1 && owner != null;
         }
 
         return false;
@@ -42,7 +42,8 @@ public class FollowOwnerGoal extends Goal implements CommandGoal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.owner != null
+        return this.mob.getPersistentData().getInt("goal") == 1
+                && this.owner != null
                 && !this.navigation.isDone()
                 && this.mob.distanceToSqr(this.owner) > (this.stopDistance * this.stopDistance);
     }
@@ -76,11 +77,6 @@ public class FollowOwnerGoal extends Goal implements CommandGoal {
                     this.navigation.moveTo(this.owner, this.speedModifier);
                 } else {
                     this.navigation.stop();
-                    if (d3 <= (double) this.stopDistance) {
-                        double d4 = this.owner.getX() - this.mob.getX();
-                        double d5 = this.owner.getZ() - this.mob.getZ();
-                        this.navigation.moveTo(this.mob.getX() - d4, this.mob.getY(), this.mob.getZ() - d5, this.speedModifier);
-                    }
                 }
             }
         }

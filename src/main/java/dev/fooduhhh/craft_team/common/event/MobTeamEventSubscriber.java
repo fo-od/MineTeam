@@ -2,6 +2,9 @@ package dev.fooduhhh.craft_team.common.event;
 
 import dev.fooduhhh.craft_team.common.Constants;
 import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
+import dev.fooduhhh.craft_team.common.entity.ai.goal.DontMoveGoal;
+import dev.fooduhhh.craft_team.common.entity.ai.goal.FightWithOwnerGoal;
+import dev.fooduhhh.craft_team.common.entity.ai.goal.FollowOwnerGoal;
 import dev.fooduhhh.craft_team.common.network.MobTamingS2CPayload;
 import net.minecraft.server.ServerScoreboard;
 import net.minecraft.server.level.ServerLevel;
@@ -10,6 +13,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -55,6 +59,18 @@ public class MobTeamEventSubscriber {
 
                 scoreboard.addPlayerToTeam(livingEntity.getStringUUID(), playersTeam);
                 livingEntity.getPersistentData().putUUID("owner", player.getUUID());
+
+                if (livingEntity instanceof Mob mob) {
+                    mob.targetSelector.addGoal(1, new FightWithOwnerGoal(mob));
+                    mob.goalSelector.addGoal(2, new FollowOwnerGoal(
+                            mob,
+                            CraftTeamConfig.mobFollowSpeedMultiplier.get().floatValue(),
+                            CraftTeamConfig.mobFollowStopDistance.get().floatValue()
+                    ));
+                    mob.goalSelector.addGoal(2, new DontMoveGoal(mob));
+
+                    mob.getPersistentData().putInt("goal", 1);
+                }
 
                 PacketDistributor.sendToPlayersInDimension(serverLevel, new MobTamingS2CPayload(target.getId(), target.blockPosition(), player.getStringUUID()));
             }

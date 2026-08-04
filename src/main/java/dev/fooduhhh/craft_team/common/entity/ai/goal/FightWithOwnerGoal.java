@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import java.util.EnumSet;
 
-public class FightWithOwnerGoal extends TargetGoal implements CommandGoal {
+public class FightWithOwnerGoal extends TargetGoal {
     private final Mob tameLivingEntity;
     private LivingEntity ownerLastAttacked;
     private long timestamp;
@@ -28,7 +28,7 @@ public class FightWithOwnerGoal extends TargetGoal implements CommandGoal {
             this.ownerLastAttacked = owner.getLastHurtMob();
             long timestamp = owner.getLastHurtMobTimestamp();
 
-            return timestamp != this.timestamp && this.canAttack(this.ownerLastAttacked, TargetingConditions.DEFAULT) &&
+            return this.mob.getPersistentData().getInt("goal") == 0 && timestamp != this.timestamp && this.canAttack(this.ownerLastAttacked, TargetingConditions.DEFAULT) &&
                     mobMixed.craftTeam$wantsToAttack(this.ownerLastAttacked, this.ownerLastAttacked.getTeam(), mobMixed.craftTeam$getOwnerTeam());
         }
         return false;

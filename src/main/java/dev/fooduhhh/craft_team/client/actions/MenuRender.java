@@ -11,9 +11,9 @@ import static dev.fooduhhh.craft_team.client.actions.MenuRenderHelper.*;
 
 public class MenuRender {
     public static final MenuRenderHelper.RadialMenu commandMenu = new MenuRenderHelper.RadialMenu(new MenuRenderHelper.RadialMenu.Option[]{
-            new MenuRenderHelper.RadialMenu.Option("key.craft_team.menu.command.attack", Items.DIAMOND_SWORD, () -> MenuHandler.changeGoal(MenuHandler.PetGoal.ATTACK)),
-            new MenuRenderHelper.RadialMenu.Option("key.craft_team.menu.command.follow", Items.LEAD, () -> MenuHandler.changeGoal(MenuHandler.PetGoal.FOLLOW)),
-            new MenuRenderHelper.RadialMenu.Option("key.craft_team.menu.command.stay", Items.COBWEB, () -> MenuHandler.changeGoal(MenuHandler.PetGoal.STAY)),
+            new MenuRenderHelper.RadialMenu.Option("key.craft_team.menu.command.attack", Items.DIAMOND_SWORD, () -> MenuHandler.changeGoal(0)),
+            new MenuRenderHelper.RadialMenu.Option("key.craft_team.menu.command.follow", Items.LEAD, () -> MenuHandler.changeGoal(1)),
+            new MenuRenderHelper.RadialMenu.Option("key.craft_team.menu.command.stay", Items.COBWEB, () -> MenuHandler.changeGoal(2)),
     }, 50, Math.toRadians(90));
 
     public static void render(GuiGraphics graphics) {

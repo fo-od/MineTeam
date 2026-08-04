@@ -1,11 +1,6 @@
 package dev.fooduhhh.craft_team.common.network;
 
 import dev.fooduhhh.craft_team.CraftTeam;
-import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
-import dev.fooduhhh.craft_team.common.entity.ai.goal.CommandGoal;
-import dev.fooduhhh.craft_team.common.entity.ai.goal.DontMoveGoal;
-import dev.fooduhhh.craft_team.common.entity.ai.goal.FightWithOwnerGoal;
-import dev.fooduhhh.craft_team.common.entity.ai.goal.FollowOwnerGoal;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -32,17 +27,7 @@ public record ChangeMobGoalC2SPayload(int entityId, int newGoal) implements Cust
             if (!entity.getPersistentData().contains("owner")) return;
             if (!player.getUUID().equals(entity.getPersistentData().getUUID("owner"))) return;
 
-            // remove other goals
-            entity.targetSelector.removeAllGoals(goal -> goal instanceof CommandGoal);
-            entity.goalSelector.removeAllGoals(goal -> goal instanceof CommandGoal);
-            switch (data.newGoal()) {
-                case 0:
-                    entity.targetSelector.addGoal(1, new FightWithOwnerGoal(entity));
-                case 1:
-                    entity.goalSelector.addGoal(1, new FollowOwnerGoal(entity, CraftTeamConfig.mobFollowSpeedMultiplier.get().floatValue(), CraftTeamConfig.mobFollowStopDistance.get().floatValue()));
-                case 2:
-                    entity.goalSelector.addGoal(1, new DontMoveGoal(entity));
-            }
+            entity.getPersistentData().putInt("goal", data.newGoal());
         });
     }
 
