@@ -1,6 +1,7 @@
 package dev.fooduhhh.craft_team.common.init;
 
 import dev.fooduhhh.craft_team.common.Constants;
+import dev.fooduhhh.craft_team.common.network.ChangeMobGoalPayload;
 import dev.fooduhhh.craft_team.common.network.MobTamingS2CPayload;
 import dev.fooduhhh.craft_team.common.network.TeamColorSyncPayload;
 import dev.fooduhhh.craft_team.common.network.TeamPvPSyncPayload;
@@ -12,7 +13,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class NetworkRegister {
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.0.2";
 
     @SubscribeEvent
     public static void registerPayload(final RegisterPayloadHandlersEvent event) {
@@ -26,5 +27,6 @@ public class NetworkRegister {
                 TeamColorSyncPayload::serverHandle
         ));
         registrar.playToClient(MobTamingS2CPayload.TYPE, MobTamingS2CPayload.STREAM_CODEC, MobTamingS2CPayload::clientHandle);
+        registrar.playToServer(ChangeMobGoalPayload.TYPE, ChangeMobGoalPayload.STREAM_CODEC, ChangeMobGoalPayload::serverHandle);
     }
 }

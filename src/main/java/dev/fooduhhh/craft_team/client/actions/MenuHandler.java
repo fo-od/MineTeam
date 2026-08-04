@@ -2,6 +2,7 @@ package dev.fooduhhh.craft_team.client.actions;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.fooduhhh.craft_team.common.Constants;
+import dev.fooduhhh.craft_team.common.network.ChangeMobGoalPayload;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -9,6 +10,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.UUID;
 
@@ -108,17 +110,6 @@ public class MenuHandler {
     }
 
     public static void changeGoal(PetGoal goal) {
-        switch (goal) {
-            case ATTACK:
-                System.out.println("attack");
-//                cachedSelectedMob.targetSelector.addGoal(1, new FightWithOwnerGoal(cachedSelectedMob));
-                break;
-            case FOLLOW:
-                System.out.println("follow");
-                break;
-            case STAY:
-                System.out.println("stay");
-                break;
-        }
+        PacketDistributor.sendToServer(new ChangeMobGoalPayload(cachedSelectedMob.getId(), goal.ordinal()));
     }
 }
