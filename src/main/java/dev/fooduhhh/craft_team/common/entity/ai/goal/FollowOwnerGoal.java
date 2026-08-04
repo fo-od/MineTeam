@@ -34,7 +34,7 @@ public class FollowOwnerGoal extends Goal {
         if (this.mob instanceof MobMixed mobMixed) {
             this.owner = mobMixed.craftTeam$getOwner();
 
-            return this.mob.getPersistentData().getInt("goal") == 1 || this.mob.getPersistentData().getInt("goal") == 3 && owner != null;
+            return this.mob.getPersistentData().getInt("goal") == 1 || this.mob.getPersistentData().getInt("goal") == 0 && owner != null;
         }
 
         return false;
@@ -43,7 +43,7 @@ public class FollowOwnerGoal extends Goal {
     @Override
     public boolean canContinueToUse() {
         return this.mob.getPersistentData().getInt("goal") == 1
-                || this.mob.getPersistentData().getInt("goal") == 3
+                || this.mob.getPersistentData().getInt("goal") == 0
                 && this.owner != null
                 && this.mob.distanceToSqr(this.owner) > (this.stopDistance * this.stopDistance);
     }
