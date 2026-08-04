@@ -65,6 +65,7 @@ public class MenuHandler {
 
             Entity entity = ((EntityHitResult) hitResult).getEntity();
             if (entity instanceof Mob mob) {
+                if (Constants.MINECRAFT.player == null) return;
                 PacketDistributor.sendToServer(new RequestActionMenuC2SPayload(mob.getId(), Constants.MINECRAFT.player.getStringUUID()));
             }
         }
