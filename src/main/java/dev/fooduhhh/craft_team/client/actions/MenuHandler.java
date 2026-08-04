@@ -2,7 +2,8 @@ package dev.fooduhhh.craft_team.client.actions;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.fooduhhh.craft_team.common.Constants;
-import dev.fooduhhh.craft_team.common.network.ChangeMobGoalPayload;
+import dev.fooduhhh.craft_team.common.network.ChangeMobGoalC2SPayload;
+import dev.fooduhhh.craft_team.common.network.RequestActionMenuC2SPayload;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -11,8 +12,6 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
-
-import java.util.UUID;
 
 import static dev.fooduhhh.craft_team.client.actions.MenuCache.*;
 import static dev.fooduhhh.craft_team.client.actions.MenuRenderHelper.*;
@@ -65,11 +64,8 @@ public class MenuHandler {
             if (hitResult.getType() != HitResult.Type.ENTITY) return;
 
             Entity entity = ((EntityHitResult) hitResult).getEntity();
-            cachedSelectedMob = (Mob) entity;
-            if (!entity.getPersistentData().contains("owner")) return;
-            UUID ownerUUID = entity.getPersistentData().getUUID("owner");
-            if (Constants.MINECRAFT.player.getUUID().equals(ownerUUID)) {
-                openMenu();
+            if (entity instanceof Mob mob) {
+                PacketDistributor.sendToServer(new RequestActionMenuC2SPayload(mob.getId(), Constants.MINECRAFT.player.getStringUUID()));
             }
         }
 
@@ -111,6 +107,6 @@ public class MenuHandler {
     }
 
     public static void changeGoal(PetGoal goal) {
-        PacketDistributor.sendToServer(new ChangeMobGoalPayload(cachedSelectedMob.getId(), goal.ordinal()));
+        PacketDistributor.sendToServer(new ChangeMobGoalC2SPayload(cachedEntityId, goal.ordinal()));
     }
 }

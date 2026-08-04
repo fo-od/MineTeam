@@ -5,7 +5,8 @@ import net.minecraft.world.entity.Mob;
 
 public class MenuCache {
     public static MenuRenderHelper.RadialMenu.Option cachedSelectedOption = null;
-    public static Mob cachedSelectedMob = null;
+    public static int cachedEntityId = -1;
+
     public static int cachedScaledScreenWidth = -1;
     public static int cachedScaledScreenHeight = -1;
     public static int cachedScaledCenterX = -1;
@@ -18,6 +19,7 @@ public class MenuCache {
 
     public static void clearCache() {
         cachedSelectedOption = null;
+        cachedEntityId = -1;
 
         cachedScaledScreenWidth = -1;
         cachedScaledScreenHeight = -1;
