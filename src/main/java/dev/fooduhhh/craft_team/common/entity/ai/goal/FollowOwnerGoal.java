@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 
-public class FollowOwnerGoal extends Goal {
+public class FollowOwnerGoal extends Goal implements CommandGoal {
     private final Mob mob;
     @Nullable
     private ServerPlayer owner;

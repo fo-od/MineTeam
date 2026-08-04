@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import java.util.EnumSet;
 
-public class FightWithOwnerGoal extends TargetGoal {
+public class FightWithOwnerGoal extends TargetGoal implements CommandGoal {
     private final Mob tameLivingEntity;
     private LivingEntity ownerLastAttacked;
     private long timestamp;

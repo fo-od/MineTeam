@@ -6,7 +6,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
 
-public class DontMoveGoal extends Goal {
+public class DontMoveGoal extends Goal implements CommandGoal {
     private final Mob mob;
 
     public DontMoveGoal(Mob mob) {

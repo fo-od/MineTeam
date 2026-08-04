@@ -21,6 +21,7 @@ public class CraftTeamConfig {
     private static final BiMap<EntityType<?>, Ingredient> tamingMaterialMap = HashBiMap.create();
 
     public static final ModConfigSpec.ConfigValue<Double> mobFollowStopDistance;
+    public static final ModConfigSpec.ConfigValue<Double> mobFollowSpeedMultiplier;
     public static final ModConfigSpec.ConfigValue<Double> deadzone;
     public static final ModConfigSpec.BooleanValue allowDamageSelf;
 
@@ -30,7 +31,7 @@ public class CraftTeamConfig {
         // server sided stuff
 
         tamingMaterials = builder
-                .comment("List of materials that can be used to tame entities")
+                .comment("List of materials that can be used to tame entities.")
                 .comment("Format: entity-ingredient,'minecraft:wolf-{'item':'minecraft:bone'}'")
                 .define("server.tamingMaterials", List.of(), str -> {
                     if (!(str instanceof String)) {
@@ -40,17 +41,21 @@ public class CraftTeamConfig {
                 });
 
         allowDamageSelf = builder
-                .comment("Whether or not to allow entities within the Team to attack themselves")
+                .comment("Whether or not to allow entities within the Team to attack themselves.")
                 .define("server.allowDamageSelf", true);
 
         mobFollowStopDistance = builder
                 .comment("The distance from the owner that tamed mobs will stop following.")
                 .define("server.mobFollowStopDistance", 5.0);
 
+        mobFollowSpeedMultiplier = builder
+                .comment("How fast tamed mobs follow their owner.")
+                .defineInRange("server.mobFollowSpeedMultiplier", 1.2, 0.0, 99.0);
+
         // client sided stuff
 
         deadzone = builder
-                .comment("Deadzone for menu selection in pixels (scales with GUI scale)")
+                .comment("Deadzone for menu selection in pixels (scales with GUI scale).")
                 .define("client.deadzone", 12.5);
 
         CONFIG = builder.build();
