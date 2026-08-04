@@ -44,7 +44,6 @@ public class FollowOwnerGoal extends Goal {
     public boolean canContinueToUse() {
         return this.mob.getPersistentData().getInt("goal") == 1
                 && this.owner != null
-                && !this.navigation.isDone()
                 && this.mob.distanceToSqr(this.owner) > (this.stopDistance * this.stopDistance);
     }
 
@@ -69,14 +68,8 @@ public class FollowOwnerGoal extends Goal {
             this.timeToRecalcPath = this.adjustedTickDelay(10);
 
             if (!this.mob.isLeashed() && !this.mob.isPassenger()) {
-                double d0 = this.mob.getX() - this.owner.getX();
-                double d1 = this.mob.getY() - this.owner.getY();
-                double d2 = this.mob.getZ() - this.owner.getZ();
-                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                if (!(d3 <= (double) (this.stopDistance * this.stopDistance))) {
+                if (this.mob.distanceToSqr(this.owner) > (this.stopDistance * this.stopDistance)) {
                     this.navigation.moveTo(this.owner, this.speedModifier);
-                } else {
-                    this.navigation.stop();
                 }
             }
         }
