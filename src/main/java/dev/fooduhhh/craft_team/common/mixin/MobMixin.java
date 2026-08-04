@@ -1,6 +1,5 @@
 package dev.fooduhhh.craft_team.common.mixin;
 
-import dev.fooduhhh.craft_team.common.entity.ai.goal.FightWithOwnerGoal;
 import dev.fooduhhh.craft_team.common.entity.ai.goal.TeamOwnerHurtTargetGoal;
 import dev.fooduhhh.craft_team.common.mixed.MobMixed;
 import net.minecraft.network.syncher.EntityDataAccessor;
