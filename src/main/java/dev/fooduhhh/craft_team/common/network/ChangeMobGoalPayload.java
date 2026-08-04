@@ -5,7 +5,6 @@ import dev.fooduhhh.craft_team.common.config.CraftTeamConfig;
 import dev.fooduhhh.craft_team.common.entity.ai.goal.DontMoveGoal;
 import dev.fooduhhh.craft_team.common.entity.ai.goal.FightWithOwnerGoal;
 import dev.fooduhhh.craft_team.common.entity.ai.goal.FollowOwnerGoal;
-import dev.fooduhhh.craft_team.common.mixed.MobMixed;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
