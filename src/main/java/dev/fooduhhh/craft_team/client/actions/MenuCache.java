@@ -1,7 +1,6 @@
 package dev.fooduhhh.craft_team.client.actions;
 
 import dev.fooduhhh.craft_team.common.Constants;
-import net.minecraft.world.entity.Mob;
 
 public class MenuCache {
     public static MenuRenderHelper.RadialMenu.Option cachedSelectedOption = null;
